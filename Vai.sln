@@ -19,6 +19,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vai.Frontend.Core", "Vai\Fr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vai.Frontend.Infrastructure", "Vai\Frontend\Vai.Frontend.Infrastructure\Vai.Frontend.Infrastructure.csproj", "{65DD44B6-9B43-4AFE-9887-65AFD41445AA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vai.Backend.Core", "Vai\Backend\Vai.Backend.Core\Vai.Backend.Core.csproj", "{4579CA21-41FB-4305-974B-A952570B7EE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vai.Backend.Infrastructure", "Vai\Backend\Vai.Backend.Infrastructure\Vai.Backend.Infrastructure.csproj", "{FC5AC11F-643B-410D-985D-4F871ED70DFB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{65DD44B6-9B43-4AFE-9887-65AFD41445AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65DD44B6-9B43-4AFE-9887-65AFD41445AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65DD44B6-9B43-4AFE-9887-65AFD41445AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4579CA21-41FB-4305-974B-A952570B7EE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4579CA21-41FB-4305-974B-A952570B7EE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4579CA21-41FB-4305-974B-A952570B7EE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4579CA21-41FB-4305-974B-A952570B7EE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC5AC11F-643B-410D-985D-4F871ED70DFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC5AC11F-643B-410D-985D-4F871ED70DFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC5AC11F-643B-410D-985D-4F871ED70DFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC5AC11F-643B-410D-985D-4F871ED70DFB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +67,8 @@ Global
 		{60535B3D-65B0-4744-9AB1-5CF02C41F9BD} = {E4F96424-584F-44CF-8D4E-633EACA205A5}
 		{859E1609-4A5E-4D31-9F1E-5A44917158A5} = {50D081F8-029C-4AC9-B47F-1C7AA2535E37}
 		{65DD44B6-9B43-4AFE-9887-65AFD41445AA} = {50D081F8-029C-4AC9-B47F-1C7AA2535E37}
+		{4579CA21-41FB-4305-974B-A952570B7EE3} = {FDA4A4D5-6D44-4F0A-84C3-052F8AFB4639}
+		{FC5AC11F-643B-410D-985D-4F871ED70DFB} = {FDA4A4D5-6D44-4F0A-84C3-052F8AFB4639}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B7401DAD-C9DA-40B0-84B8-268AA988C07C}
