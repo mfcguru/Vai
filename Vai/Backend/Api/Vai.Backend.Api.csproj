@@ -9,7 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Frontend\Application\Vai.Frontend.Application.csproj" />
+    <ProjectReference Include="..\..\Frontend\Vai.Frontend.Application\Vai.Frontend.Application.csproj" />
+    <ProjectReference Include="..\..\Frontend\Vai.Frontend.Core\Vai.Frontend.Core.csproj" />
     <ProjectReference Include="..\..\Shared\Vai.Shared.csproj" />
   </ItemGroup>
 

@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31105.61
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vai.Backend.Api", "Vai\Backend\Api\Vai.Backend.Api.csproj", "{4327C513-048F-4859-9136-159DABAFD371}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vai.Frontend.Application", "Vai\Frontend\Application\Vai.Frontend.Application.csproj", "{ED4B655F-C73A-4336-AC98-A11DBFA53853}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vai.Frontend.Application", "Vai\Frontend\Vai.Frontend.Application\Vai.Frontend.Application.csproj", "{ED4B655F-C73A-4336-AC98-A11DBFA53853}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vai.Shared", "Vai\Shared\Vai.Shared.csproj", "{60535B3D-65B0-4744-9AB1-5CF02C41F9BD}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{50D081F8-029C-4AC9-B47F-1C7AA2535E37}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{E4F96424-584F-44CF-8D4E-633EACA205A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vai.Frontend.Core", "Vai\Frontend\Vai.Frontend.Core\Vai.Frontend.Core.csproj", "{859E1609-4A5E-4D31-9F1E-5A44917158A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{60535B3D-65B0-4744-9AB1-5CF02C41F9BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60535B3D-65B0-4744-9AB1-5CF02C41F9BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60535B3D-65B0-4744-9AB1-5CF02C41F9BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{859E1609-4A5E-4D31-9F1E-5A44917158A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{859E1609-4A5E-4D31-9F1E-5A44917158A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{859E1609-4A5E-4D31-9F1E-5A44917158A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{859E1609-4A5E-4D31-9F1E-5A44917158A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +47,7 @@ Global
 		{4327C513-048F-4859-9136-159DABAFD371} = {FDA4A4D5-6D44-4F0A-84C3-052F8AFB4639}
 		{ED4B655F-C73A-4336-AC98-A11DBFA53853} = {50D081F8-029C-4AC9-B47F-1C7AA2535E37}
 		{60535B3D-65B0-4744-9AB1-5CF02C41F9BD} = {E4F96424-584F-44CF-8D4E-633EACA205A5}
+		{859E1609-4A5E-4D31-9F1E-5A44917158A5} = {50D081F8-029C-4AC9-B47F-1C7AA2535E37}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B7401DAD-C9DA-40B0-84B8-268AA988C07C}
