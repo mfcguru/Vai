@@ -13,6 +13,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Vai.Shared.csproj" />
+    <ProjectReference Include="..\Vai.Frontend.Core\Vai.Frontend.Core.csproj" />
+    <ProjectReference Include="..\Vai.Frontend.Infrastructure\Vai.Frontend.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
