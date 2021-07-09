@@ -1,13 +1,16 @@
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Vai.Frontend.Core.Services;
-using Vai.Frontend.Infrastructure.Services;
 
 namespace Vai.Frontend.Application
 {
+    using Vai.Frontend.Core.Services;
+    using Vai.Frontend.Infrastructure.Configuration;
+    using Vai.Frontend.Infrastructure.Services;
+
     public class Program
     {
         public static async Task Main(string[] args)
@@ -16,10 +19,22 @@ namespace Vai.Frontend.Application
             builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-
             builder.Services.AddTransient<IApiService, ApiService>();
 
+            await ConfigureSettings(builder);
             await builder.Build().RunAsync();
+        }
+
+        private static async Task ConfigureSettings(WebAssemblyHostBuilder builder)
+        {
+            var http = new HttpClient() { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
+            builder.Services.AddScoped(sp => http);
+
+            using var response = await http.GetAsync("apiConfiguration.json");
+            using var stream = await response.Content.ReadAsStreamAsync();
+
+            builder.Configuration.AddJsonStream(stream);
+            builder.Services.Configure<ApiConfiguration>(options => builder.Configuration.GetSection("ApiConfiguration").Bind(options));
         }
     }
 }
