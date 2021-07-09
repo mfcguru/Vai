@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="UseCases\" />
+    <ProjectReference Include="..\Vai.Frontend.Core\Vai.Frontend.Core.csproj" />
   </ItemGroup>
 
 </Project>
