@@ -5,10 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <SupportedPlatform Include="browser" />
+    <Compile Remove="Commands\**" />
+    <EmbeddedResource Remove="Commands\**" />
+    <None Remove="Commands\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\" />
+    <SupportedPlatform Include="browser" />
   </ItemGroup>
 </Project>
