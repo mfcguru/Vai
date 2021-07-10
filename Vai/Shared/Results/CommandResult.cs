@@ -1,15 +1,16 @@
-﻿
+﻿using System.Net;
+
 namespace Vai.Shared.Results
 {
     public class CommandResult
     {
-        public bool Success { get; set; }
-        public int StatusCode { get; set; }
-        public string Error { get; set; }
+        public bool Success { get; set; } = true;
+        public int StatusCode { get; set; } = (int) HttpStatusCode.OK;
+        public string Error { get; set; } = string.Empty;
     }
 
     public class CommandResult<TData> : CommandResult
     {
-        TData Data { get; set; }
+        public TData Data { get; set; }
     }
 }

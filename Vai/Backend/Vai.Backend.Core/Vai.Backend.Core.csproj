@@ -28,7 +28,10 @@
     <Folder Include="BusinessRules\" />
     <Folder Include="Entities\" />
     <Folder Include="Services\" />
-    <Folder Include="UseCases\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Vai.Shared.csproj" />
   </ItemGroup>
 
 </Project>

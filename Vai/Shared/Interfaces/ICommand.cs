@@ -4,23 +4,23 @@ using Vai.Shared.Results;
 
 namespace Vai.Shared.Interfaces
 {
-    public interface ICommand<TResult>
+    public interface ICommand<TParams>
     {
-        Task<CommandResult<TResult>> Execute();
+        Task<CommandResult> Execute(TParams parameters);
     }
 
-    public interface ICommand<TResult, TParams>
+    public interface ICommand<TParams, TModel>
     {
-        Task<CommandResult<TResult>> Execute(TParams parameters);
+        Task<CommandResult<TModel>> Execute(TParams parameters);
     }
 
-    public interface ICommandList<TResult>
+    public interface ICommandEnumerable<TModel>
     {
-        Task<CommandResult<List<TResult>>> Execute();
+        Task<CommandResult<List<TModel>>> Execute();
     }
 
-    public interface ICommandList<TResult, TParams>
+    public interface ICommandList<TModel, TParams>
     {
-        Task<CommandResult<List<TResult>>> Execute(TParams parameters);
+        Task<CommandResult<List<TModel>>> Execute(TParams parameters);
     }
 }
