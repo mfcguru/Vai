@@ -8,6 +8,10 @@ using Microsoft.Extensions.Hosting;
 namespace Vai.Backend.Api
 {
     using Vai.Backend.Core.Entities;
+    using Vai.Backend.Core.UseCases.Process;
+    using Vai.Shared.Interfaces;
+    using Vai.Shared.Models;
+    using Vai.Shared.Params;
 
     public class Startup
     {
@@ -29,6 +33,12 @@ namespace Vai.Backend.Api
                 .UseLazyLoadingProxies()
                 .UseSqlServer(Configuration["ConnectionStrings:VaiConnectionString"])
             );
+
+            services.AddScoped<ICommand<AddProcessCommandParams>, AddProcessCommand>();
+            services.AddScoped<ICommand<DeleteProcessCommandParams>, DeleteProcessCommand>();
+            services.AddScoped<ICommand<EditProcessCommandParameters>, EditProcessCommand>();
+            services.AddScoped<ICommandList<GetAllProcessesCommandModel, GetAllProcessesCommandParams>, GetAllProcessesCommand>();
+            services.AddScoped<ICommand<int, GetProcessCommandModel>, GetProcessCommand>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

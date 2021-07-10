@@ -2,7 +2,7 @@
 
 namespace Vai.Shared.Params
 {
-    public class AddProcessCommandParameters
+    public class AddProcessCommandParams
     {
         [Required]
         public string City { get; set; }
