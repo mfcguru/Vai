@@ -4,10 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Vai.Backend.Core.Entities;
 
 namespace Vai.Backend.Api
 {
+    using Vai.Backend.Core.Entities;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
