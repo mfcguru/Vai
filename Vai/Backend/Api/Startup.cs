@@ -4,9 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Vai.Backend.Api
 {
+    using Vai.Backend.Api.Helpers;
     using Vai.Backend.Core.Entities;
     using Vai.Backend.Core.UseCases.Process;
     using Vai.Shared.Interfaces;
@@ -29,6 +31,8 @@ namespace Vai.Backend.Api
             services.AddControllersWithViews();
             services.AddRazorPages();
 
+            services.AddJwtAuthentication(AuthHelper.SECRET);
+
             services.AddDbContextPool<VaiContext>(context => context
                 .UseLazyLoadingProxies()
                 .UseSqlServer(Configuration["ConnectionStrings:VaiConnectionString"])
@@ -42,7 +46,7 @@ namespace Vai.Backend.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerProvider loggerProvider)
         {
             if (env.IsDevelopment())
             {
@@ -50,11 +54,12 @@ namespace Vai.Backend.Api
                 app.UseWebAssemblyDebugging();
             }
             else
-            {
-                app.UseExceptionHandler("/Error");
+            {  
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.ConfigureExceptionHandler(loggerProvider.CreateLogger("default"));
 
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();
