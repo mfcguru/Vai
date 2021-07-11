@@ -10,9 +10,7 @@ namespace Vai.Backend.Api
     using Vai.Backend.Api.Helpers;
     using Vai.Backend.Core.Entities;
     using Vai.Backend.Core.UseCases.Process;
-    using Vai.Shared.Interfaces;
-    using Vai.Shared.Models;
-    using Vai.Shared.Params;
+    using Vai.Shared.Interfaces.Process;
 
     public class Startup
     {
@@ -37,11 +35,11 @@ namespace Vai.Backend.Api
                 .UseSqlServer(Configuration["ConnectionStrings:VaiConnectionString"])
             );
 
-            services.AddScoped<ICommand<AddProcessCommandParams>, AddProcessCommand>();
-            services.AddScoped<ICommand<DeleteProcessCommandParams>, DeleteProcessCommand>();
-            services.AddScoped<ICommand<EditProcessCommandParameters>, EditProcessCommand>();
-            services.AddScoped<ICommandList<GetAllProcessesCommandModel, GetAllProcessesCommandParams>, GetAllProcessesCommand>();
-            services.AddScoped<ICommand<int, GetProcessCommandModel>, GetProcessCommand>();
+            services.AddScoped<IAddProcessCommand, AddProcessCommand>();
+            services.AddScoped<IDeleteProcessCommand, DeleteProcessCommand>();
+            services.AddScoped<IEditProcessCommand, EditProcessCommand>();
+            services.AddScoped<IGetAllProcessesCommand, GetAllProcessesCommand>();
+            services.AddScoped<IGetProcessCommand, GetProcessCommand>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

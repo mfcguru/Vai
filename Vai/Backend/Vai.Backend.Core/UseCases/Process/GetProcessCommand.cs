@@ -2,11 +2,11 @@
 
 namespace Vai.Backend.Core.UseCases.Process
 {
-    using Vai.Shared.Interfaces;
+    using Vai.Shared.Interfaces.Process;
     using Vai.Shared.Models;
     using Vai.Shared.Results;
 
-    public class GetProcessCommand : ICommand<int, GetProcessCommandModel>
+    public class GetProcessCommand : IGetProcessCommand
     {
         public async Task<CommandResult<GetProcessCommandModel>> Execute(int id)
         {

@@ -2,9 +2,8 @@
 using System.Threading.Tasks;
 
 namespace Vai.Backend.Api.Controllers
-{   
-    using Vai.Shared.Interfaces;
-    using Vai.Shared.Models;
+{
+    using Vai.Shared.Interfaces.Process;
     using Vai.Shared.Params;
 
     [Route("api/[controller]")]
@@ -12,10 +11,7 @@ namespace Vai.Backend.Api.Controllers
     public class ProcessController : ControllerBase
     {
         [HttpGet("getAllProcesses")]
-        public async Task<IActionResult> GetAllProcesses(
-            [FromServices] ICommandList<GetAllProcessesCommandModel, GetAllProcessesCommandParams> command,
-            [FromQuery] int page,
-            [FromQuery] int pageSize)
+        public async Task<IActionResult> GetAllProcesses([FromServices]IGetAllProcessesCommand command, [FromQuery]int page, [FromQuery]int pageSize)
         {
             var result = await command.Execute(new GetAllProcessesCommandParams { Page = page, PageSize = pageSize });
 
@@ -23,9 +19,7 @@ namespace Vai.Backend.Api.Controllers
         }
 
         [HttpGet("getProcess")]
-        public async Task<IActionResult> GetProcess(
-            [FromServices] ICommand<int, GetProcessCommandModel> command,
-            [FromQuery] int id)
+        public async Task<IActionResult> GetProcess([FromServices]IGetProcessCommand command, [FromQuery] int id)
         {
             var result = await command.Execute(id);
 
@@ -33,9 +27,7 @@ namespace Vai.Backend.Api.Controllers
         }
 
         [HttpPost("addProcess")]
-        public async Task<IActionResult> AddProcess(
-            [FromServices]ICommand<AddProcessCommandParams> command, 
-            [FromBody]AddProcessCommandParams parameters)
+        public async Task<IActionResult> AddProcess([FromServices]IAddProcessCommand command, [FromBody]AddProcessCommandParams parameters)
         {
             var result = await command.Execute(parameters);
 
@@ -43,9 +35,7 @@ namespace Vai.Backend.Api.Controllers
         }
 
         [HttpPut("editProcess")]
-        public async Task<IActionResult> EditProcess(
-            [FromServices]ICommand<EditProcessCommandParameters> command,
-            [FromBody]EditProcessCommandParameters parameters)
+        public async Task<IActionResult> EditProcess([FromServices]IEditProcessCommand command, [FromBody]EditProcessCommandParameters parameters)
         {
             var result = await command.Execute(parameters);
 
@@ -53,9 +43,7 @@ namespace Vai.Backend.Api.Controllers
         }
 
         [HttpDelete("deleteProcess")]
-        public async Task<IActionResult> DeleteProcess(
-            [FromServices]ICommand<DeleteProcessCommandParams> command,
-            [FromQuery]int id)
+        public async Task<IActionResult> DeleteProcess([FromServices]IDeleteProcessCommand command, [FromQuery]int id)
         {
             var result = await command.Execute(new DeleteProcessCommandParams { Id = id });
 

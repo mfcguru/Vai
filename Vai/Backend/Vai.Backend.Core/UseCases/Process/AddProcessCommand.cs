@@ -3,11 +3,11 @@
 namespace Vai.Backend.Core.UseCases.Process
 {
     using Vai.Backend.Core.Entities;
-    using Vai.Shared.Interfaces;
+    using Vai.Shared.Interfaces.Process;
     using Vai.Shared.Params;
     using Vai.Shared.Results;
 
-    public class AddProcessCommand : ICommand<AddProcessCommandParams>
+    public class AddProcessCommand : IAddProcessCommand
     {
         private readonly VaiContext context;
 
