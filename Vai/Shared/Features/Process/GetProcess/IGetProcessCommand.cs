@@ -1,8 +1,6 @@
 ﻿
-namespace Vai.Shared.Interfaces.Process
+namespace Vai.Shared.Feagtures.GetProcess
 {
-    using Vai.Shared.Models;
-
     public interface IGetProcessCommand : ICommand<int, GetProcessCommandModel>
     {
     }

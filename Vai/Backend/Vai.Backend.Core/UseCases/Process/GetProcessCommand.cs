@@ -2,9 +2,8 @@
 
 namespace Vai.Backend.Core.UseCases.Process
 {
-    using Vai.Shared.Interfaces.Process;
-    using Vai.Shared.Models;
-    using Vai.Shared.Results;
+    using Vai.Shared;
+    using Vai.Shared.Feagtures.GetProcess;
 
     public class GetProcessCommand : IGetProcessCommand
     {

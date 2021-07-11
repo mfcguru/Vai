@@ -3,8 +3,11 @@ using System.Threading.Tasks;
 
 namespace Vai.Backend.Api.Controllers
 {
-    using Vai.Shared.Interfaces.Process;
-    using Vai.Shared.Params;
+    using Vai.Shared.Feagtures.AddProcess;
+    using Vai.Shared.Feagtures.DeleteProcess;
+    using Vai.Shared.Feagtures.EditProcess;
+    using Vai.Shared.Feagtures.GetAllProcesses;
+    using Vai.Shared.Feagtures.GetProcess;
 
     [Route("api/[controller]")]
     [ApiController]

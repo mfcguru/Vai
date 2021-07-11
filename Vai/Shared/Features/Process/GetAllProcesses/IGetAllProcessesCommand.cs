@@ -1,9 +1,6 @@
 ﻿
-namespace Vai.Shared.Interfaces.Process
+namespace Vai.Shared.Feagtures.GetAllProcesses
 {
-    using Vai.Shared.Models;
-    using Vai.Shared.Params;
-
     public interface IGetAllProcessesCommand : ICommandList<GetAllProcessesCommandModel, GetAllProcessesCommandParams>
     {
     }

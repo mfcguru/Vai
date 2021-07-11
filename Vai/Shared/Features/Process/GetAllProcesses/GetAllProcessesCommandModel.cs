@@ -1,5 +1,5 @@
 ﻿
-namespace Vai.Shared.Models
+namespace Vai.Shared.Feagtures.GetAllProcesses
 {
     public class GetAllProcessesCommandModel
     {

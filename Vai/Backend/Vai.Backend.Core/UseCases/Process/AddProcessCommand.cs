@@ -3,9 +3,8 @@
 namespace Vai.Backend.Core.UseCases.Process
 {
     using Vai.Backend.Core.Entities;
-    using Vai.Shared.Interfaces.Process;
-    using Vai.Shared.Params;
-    using Vai.Shared.Results;
+    using Vai.Shared;
+    using Vai.Shared.Feagtures.AddProcess;
 
     public class AddProcessCommand : IAddProcessCommand
     {

@@ -1,5 +1,5 @@
 ﻿
-namespace Vai.Shared.Params
+namespace Vai.Shared.Feagtures.GetAllProcesses
 {
     public class GetAllProcessesCommandParams
     {

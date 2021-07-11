@@ -10,7 +10,11 @@ namespace Vai.Backend.Api
     using Vai.Backend.Api.Helpers;
     using Vai.Backend.Core.Entities;
     using Vai.Backend.Core.UseCases.Process;
-    using Vai.Shared.Interfaces.Process;
+    using Vai.Shared.Feagtures.AddProcess;
+    using Vai.Shared.Feagtures.DeleteProcess;
+    using Vai.Shared.Feagtures.EditProcess;
+    using Vai.Shared.Feagtures.GetAllProcesses;
+    using Vai.Shared.Feagtures.GetProcess;
 
     public class Startup
     {

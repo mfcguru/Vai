@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Vai.Shared.Params
+namespace Vai.Shared.Feagtures.AddProcess
 {
     public class AddProcessCommandParams
     {

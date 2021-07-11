@@ -1,8 +1,6 @@
 ﻿
-namespace Vai.Shared.Interfaces.Process
+namespace Vai.Shared.Feagtures.DeleteProcess
 {
-    using Vai.Shared.Params;
-
     public interface IDeleteProcessCommand : ICommand<DeleteProcessCommandParams>
     {
     }

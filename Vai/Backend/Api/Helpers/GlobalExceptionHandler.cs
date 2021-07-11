@@ -7,10 +7,10 @@ using System.Net;
 
 namespace Vai.Backend.Api.Helpers
 {
-	using Vai.Backend.Core.BusinessRules;
-	using Vai.Shared.Results;
+    using Vai.Backend.Core.BusinessRules;
+    using Vai.Shared;
 
-	public static class GlobalExceptionHandler
+    public static class GlobalExceptionHandler
 	{
 		public static void ConfigureExceptionHandler(this IApplicationBuilder app, ILogger logger)
 		{

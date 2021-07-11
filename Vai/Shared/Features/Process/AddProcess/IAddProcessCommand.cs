@@ -1,8 +1,6 @@
 ﻿
-namespace Vai.Shared.Interfaces.Process
+namespace Vai.Shared.Feagtures.AddProcess
 {
-    using Vai.Shared.Params;
-
     public interface IAddProcessCommand : ICommand<AddProcessCommandParams>
     {
     }

@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Vai.Shared.Interfaces
+namespace Vai.Shared
 {
-    using Vai.Shared.Results;
-
     public interface ICommand<TParams>
     {
         Task<CommandResult> Execute(TParams parameters);

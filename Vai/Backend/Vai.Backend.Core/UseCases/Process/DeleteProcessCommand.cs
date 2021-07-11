@@ -2,9 +2,8 @@
 
 namespace Vai.Backend.Core.UseCases.Process
 {
-    using Vai.Shared.Interfaces.Process;
-    using Vai.Shared.Params;
-    using Vai.Shared.Results;
+    using Vai.Shared;
+    using Vai.Shared.Feagtures.DeleteProcess;
 
     public class DeleteProcessCommand : IDeleteProcessCommand
     {

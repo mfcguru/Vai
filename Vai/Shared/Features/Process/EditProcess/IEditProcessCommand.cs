@@ -1,8 +1,6 @@
 ﻿
-namespace Vai.Shared.Interfaces.Process
+namespace Vai.Shared.Feagtures.EditProcess
 {
-    using Vai.Shared.Params;
-
     public interface IEditProcessCommand : ICommand<EditProcessCommandParameters>
     {
     }
