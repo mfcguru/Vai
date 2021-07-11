@@ -11,6 +11,27 @@ namespace Vai.Backend.Api.Controllers
     [ApiController]
     public class ProcessController : ControllerBase
     {
+        [HttpGet("getAllProcesses")]
+        public async Task<IActionResult> GetAllProcesses(
+            [FromServices] ICommandList<GetAllProcessesCommandModel, GetAllProcessesCommandParams> command,
+            [FromQuery] int page,
+            [FromQuery] int pageSize)
+        {
+            var result = await command.Execute(new GetAllProcessesCommandParams { Page = page, PageSize = pageSize });
+
+            return Ok(result);
+        }
+
+        [HttpGet("getProcess")]
+        public async Task<IActionResult> GetProcess(
+            [FromServices] ICommand<int, GetProcessCommandModel> command,
+            [FromQuery] int id)
+        {
+            var result = await command.Execute(id);
+
+            return Ok(result);
+        }
+
         [HttpPost("addProcess")]
         public async Task<IActionResult> AddProcess(
             [FromServices]ICommand<AddProcessCommandParams> command, 
@@ -34,30 +55,9 @@ namespace Vai.Backend.Api.Controllers
         [HttpDelete("deleteProcess")]
         public async Task<IActionResult> DeleteProcess(
             [FromServices]ICommand<DeleteProcessCommandParams> command,
-            [FromBody]DeleteProcessCommandParams parameters)
+            [FromQuery]int id)
         {
-            var result = await command.Execute(parameters);
-
-            return Ok(result);
-        }
-
-        [HttpGet("getAllProcesses")]
-        public async Task<IActionResult> GetAllProcesses(
-            [FromServices]ICommandList<GetAllProcessesCommandModel, GetAllProcessesCommandParams> command,
-            [FromQuery]int page,
-            [FromQuery]int pageSize)
-        {
-            var result = await command.Execute(new GetAllProcessesCommandParams { Page = page, PageSize = pageSize });
-
-            return Ok(result);
-        }
-
-        [HttpGet("getProcess")]
-        public async Task<IActionResult> GetProcess(
-            [FromServices] ICommand<int, GetProcessCommandModel> command,
-            [FromQuery] int id)
-        {
-            var result = await command.Execute(id);
+            var result = await command.Execute(new DeleteProcessCommandParams { Id = id });
 
             return Ok(result);
         }

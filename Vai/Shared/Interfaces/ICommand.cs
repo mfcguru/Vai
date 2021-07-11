@@ -15,7 +15,7 @@ namespace Vai.Shared.Interfaces
         Task<CommandResult<TModel>> Execute(TParams parameters);
     }
 
-    public interface ICommandEnumerable<TModel>
+    public interface ICommandList<TModel>
     {
         Task<CommandResult<List<TModel>>> Execute();
     }
