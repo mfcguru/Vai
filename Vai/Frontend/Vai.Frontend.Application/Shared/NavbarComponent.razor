@@ -1,0 +1,16 @@
+﻿<div class="top-nav bg-white navbar-light py-1 pl-4">
+    <a class="navbar-brand" href=""><img src="icons/logo.png" style="height: 25px; width: auto;"></a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <button class="btn float-right mr-2 icon" style="background-color: #dddddd;color: #3d3d3d;font-size: 14px;margin-top: 2.5px;">Ian Whitfield </button>
+</div>
+
+@code {
+    private bool collapseNavMenu = false;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

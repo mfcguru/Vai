@@ -1,0 +1,9 @@
+﻿.icon::after {
+    content: '\25BC';
+}
+
+@media (min-width: 1031px) {
+    .navbar-toggler {
+        display: none;
+    }
+}

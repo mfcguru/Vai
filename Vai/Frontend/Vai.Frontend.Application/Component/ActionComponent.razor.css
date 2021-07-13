@@ -1,0 +1,233 @@
+﻿.flex {
+    display: flex;
+    align-items: stretch;
+}
+
+.row-border-top {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-top: 1px solid #d0d0d0;
+    border-left: 1px solid #d0d0d0;
+    border-right: 1px solid #d0d0d0;
+}
+
+.row-border {
+    border-left: 1px solid #d0d0d0;
+    border-right: 1px solid #d0d0d0;
+    border-top: 1px solid #e7e7e7;
+    border-bottom: 1px solid #e7e7e7;
+}
+
+.row-border-bottom {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-left: 1px solid #d0d0d0;
+    border-right: 1px solid #d0d0d0;
+    border-bottom: 1px solid #d0d0d0;
+}
+
+.tbody {
+    background-color: #fff;
+}
+
+th {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 6px;
+    padding-right: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #2b2b2b;
+}
+
+td {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 6px;
+    padding-right: 6px;
+    font-size: 14px;
+    color: #7b7b7b;
+}
+
+.icon::after {
+    content: '\25BC';
+    color: #c9c9c9;
+}
+
+tbody > tr:hover {
+    background-color: #13ae83;
+}
+
+tbody > tr:nth-child(odd) {
+    background-color: #f8f8f8;
+}
+
+tbody > tr:nth-child(odd):hover {
+    background-color: #13ae83;
+}
+
+tbody > tr:hover > td {
+    color: #dbede7;
+}
+
+.task-descr {
+    color: #3d3d3d;
+}
+
+tbody > tr:hover > .task-descr {
+    color: #fff;
+}
+
+tbody > tr:hover > td > .status, 
+tbody > tr:hover > td > .efficiency, 
+tbody > tr:hover > td > .priority {
+    color: #00a373;
+    background-color: #d0efe6;
+}
+
+.status, .efficiency {
+    background-color: #e3e3e3;
+    font-size: 12px;
+    color: #5b5b5b;
+    padding: 3px 8px;
+    text-transform: uppercase;
+    font-weight: 400;
+    border-radius: 2px;
+}
+
+.priority {
+    font-size: 12px;
+    padding: 3px 8px;
+    text-transform: uppercase;
+    font-weight: 400;
+    border-radius: 2px;
+}
+
+tbody > tr:nth-child(1) > td > .priority, tbody > tr:nth-child(2) > td > .priority {
+    background-color: #d3fff0;
+    color: #1fb37d;
+}
+
+tbody > tr:nth-child(3) > td > .priority, tbody > tr:nth-child(4) > td > .priority {
+    background-color: #fef8d3;
+    color: #c68000;
+}
+
+tbody > tr:nth-child(5) > td > .priority, tbody > tr:nth-child(6) > td > .priority {
+    background-color: #ffdbd5;
+    color: #bc3d2f;
+}
+
+.title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #0d0d0d;
+    border-right: 1px solid #e7e7e7;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.display-text {
+    color: #adadad;
+    font-size: 14px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%;
+    overflow: hidden;
+    white-space:nowrap;
+}
+
+.button-option {
+    padding-top: 5px;
+    padding-bottom: 3px;
+    border-right: 1px solid #e7e7e7;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.sort-by {
+    font-size: 14px;
+    color: #adadad;
+    border-right: 1px solid #e7e7e7;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    white-space:nowrap;
+}
+
+.sort-by-text {
+    color: #00a87b;
+    font-size: 14px;
+}
+
+.option {
+    font-size: 14px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.button {
+    background-color: #efefef;
+    color: #cfcfcf;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.show-results {
+    font-size: 14px;
+    color: #adadad;
+    padding-top: 11px;
+    padding-bottom: 5px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-right: 1px solid #e7e7e7;
+    white-space:nowrap;
+}
+
+.show-results > span {
+    color: #00a87b;
+}
+
+.pagination-buttons {
+    width: 100%;
+    text-align: center;
+    padding: 7px;
+}
+
+.page-btn {
+    color: #c9c9c9;
+    padding: 3px 8px;
+    font-size: 14px;
+}
+
+.page-btn-active {
+    background-color: #13ae83;
+    color: #fff;
+}
+
+.page-btn-left::after {
+    content: '\003C';
+    color: #707070;
+}
+
+.page-btn-right::after {
+    content: '\003E';
+    color: #707070;
+}
+
+.form-check {
+    border-radius: 2px;
+    background-color: black;
+}

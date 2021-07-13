@@ -1,0 +1,27 @@
+﻿.nav-item {
+    font-size: 0.9rem;
+    padding: 4px 10px;
+    border-radius: 2px !important;
+}
+
+    .nav-item ::deep a {
+        color: #7a8083;
+        border-radius: 4px;
+    }
+
+        .nav-item ::deep a.active {
+            background-color: #13ae83;
+            color: #fff;
+        }
+
+        .nav-item ::deep a:hover {
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+@media (min-width: 1031px) {
+    .collapse {
+        /* Never collapse the sidebar for wide screens */
+        display: block;
+    }
+}

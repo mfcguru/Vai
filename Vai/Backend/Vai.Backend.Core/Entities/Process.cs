@@ -12,6 +12,7 @@ namespace Vai.Backend.Core.Entities
         public string Robot { get; set; }
         public string Description { get; set; }
         public DateTime StartTime { get; set; }
+        public string Efficiency { get; set; }
         public string Status { get; set; }
         public string Priority { get; set; }
     }

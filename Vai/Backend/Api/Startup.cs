@@ -39,6 +39,7 @@ namespace Vai.Backend.Api
             services.AddScoped<IDeleteProcessCommand, DeleteProcessCommand>();
             services.AddScoped<IEditProcessCommand, EditProcessCommand>();
             services.AddScoped<IGetAllProcessesCommand, GetAllProcessesCommand>();
+            services.AddScoped<IGetAllBacklogItemsCommand, GetAllBacklogItemsCommand>();
             services.AddScoped<IGetProcessCommand, GetProcessCommand>();
         }
 

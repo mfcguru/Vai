@@ -18,6 +18,14 @@ namespace Vai.Backend.Api.Controllers
             return Ok(result);
         }
 
+        [HttpGet("getAllBacklogItems")]
+        public async Task<IActionResult> GetAllBacklogItems([FromServices] IGetAllBacklogItemsCommand command, [FromQuery] int page, [FromQuery] int pageSize)
+        {
+            var result = await command.Execute(new GetAllBacklogItemsCommandParams { Page = page, PageSize = pageSize });
+
+            return Ok(result);
+        }
+
         [HttpGet("getProcess")]
         public async Task<IActionResult> GetProcess([FromServices]IGetProcessCommand command, [FromQuery] int id)
         {

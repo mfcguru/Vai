@@ -1,0 +1,65 @@
+﻿<div class="@NavMenuCssClass">
+    <div class="px-4 pt-2">
+        <h6 class="text-white mt-2 ml-2">Monitoring</h6>
+    </div>
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/process" Match="NavLinkMatch.All">
+                Running Jobs
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/process/#1" Match="NavLinkMatch.All">
+                Queued Jobs
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/process/#2" Match="NavLinkMatch.All">
+                Historical Jobs
+            </NavLink>
+        </li>
+    </ul>
+    <div class="px-4">
+        <h6 class="text-white ml-2">Administration</h6>
+    </div>
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/process/#3" Match="NavLinkMatch.All">
+                Permissions Manager
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/process/#4" Match="NavLinkMatch.All">
+                Application Settings
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/process/#5" Match="NavLinkMatch.All">
+                Robot Manager
+            </NavLink>
+        </li>
+    </ul>
+    <div class="px-4">
+        <h6 class="text-white ml-2">Analytics</h6>
+    </div>
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/process/#6" Match="NavLinkMatch.All">
+                Customer Analytics
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/process/#7" Match="NavLinkMatch.All">
+                Proccess Analytics
+            </NavLink>
+        </li>
+    </ul>
+</div>
+
+@code {
+    [Parameter]
+    public bool collapseNavMenu { get; set; }
+
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+}

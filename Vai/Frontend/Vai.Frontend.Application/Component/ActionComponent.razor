@@ -1,0 +1,75 @@
+﻿@inject IGetAllProcessesCommand command
+
+<div class="flex bg-white row-border-top">
+    <div class="title">ACTIONS</div>
+    <div class="display-text">
+        <span style="margin-top: 10px !important">Displaying 10 of a total 236 processes</span>
+    </div>
+    <div class="button-option">
+        <button class="button icon float-right">Actions</button>
+    </div>
+    <div class="sort-by icon">
+        Sort by:
+        <span class="sort-by-text">Relevance</span>
+    </div>
+    <div class="option">...</div>
+</div>
+<div class="row-border" style="overflow-x:auto;width: 100%;">
+    <table style="width: 100%">
+        <thead class="bg-white">
+            <tr>
+                <th scope="col" style="display: flex"><input type="checkbox" class="form-check mr-2" style="margin-top: 5px;" /> Client</th>
+                <th scope="col">Robot</th>
+                <th scope="col">Task Description</th>
+                <th scope="col">Start Time</th>
+                <th scope="col">Elapsed Duration</th>
+                <th scope="col">Status</th>
+                <th scope="col">Efficiency</th>
+                <th scope="col">Priority</th>
+            </tr>
+        </thead>
+        <tbody class="tbody">
+            @foreach (var process in processes)
+            {
+                <tr>
+                    <td style="display: flex"><input type="checkbox" class="form-check mr-2" style="margin-top: 5px;" /> @process.Client</td>
+                    <td>@process.Robot</td>
+                    <td class="task-descr">@process.TaskDescription</td>
+                    <td>@process.StartTime</td>
+                    <td>@process.ElapsedTime</td>
+                    <td><span class="status">@process.Status</span></td>
+                    <td><span class="efficiency">@process.Efficiency</span></td>
+                    <td><span class="priority">@process.Priority</span></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="flex bg-white row-border-bottom">
+    <div class="show-results icon">
+        Show: <span>10 Results </span>
+    </div>
+    <div class="pagination-buttons">
+        <button class="btn ml-1 page-btn page-btn-left"></button>
+        @foreach (var process in processes)
+        {
+            <button class="btn ml-1 page-btn page-btn-active">1</button>
+        }
+        <button class="btn ml-1 page-btn">></button>
+    </div>
+</div>
+
+@code {
+    private int page { get; set; } = 1;
+    private int pageSize { get; set; } = 1;
+    private int totalPages { get; set; }
+    List<GetAllProcessesCommandModel> processes = new List<GetAllProcessesCommandModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        var result = await command.Execute(new GetAllProcessesCommandParams { Page = page, PageSize = pageSize });
+        processes = result.Data;
+    }
+}
