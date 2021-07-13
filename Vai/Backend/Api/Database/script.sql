@@ -12,6 +12,7 @@ CREATE TABLE [dbo].[Process](
 	[Description] [nvarchar](500) NOT NULL,
 	[StartTime] [datetime2](7) NOT NULL,
 	[Status] [nvarchar](50) NOT NULL,
+	[Efficiency] [nvarchar](50) NOT NULL,
 	[Priority] [nvarchar](50) NOT NULL,
  CONSTRAINT [PK_Process] PRIMARY KEY CLUSTERED 
 (
