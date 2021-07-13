@@ -76,10 +76,13 @@
         totalPages = result.TotalPages;
     }
 
-    private void PaginatePage(int pageIndex)
+    private async void PaginatePage(int pageIndex)
     {
-        page = pageIndex;
-        GetAllProcesses();
+        await Task.Run(() =>
+        {
+            page = pageIndex;
+            GetAllProcesses();
+        });
     }
 
     private async void PaginateRight()
@@ -94,13 +97,16 @@
         });
     }
 
-    private void PaginateLeft()
+    private async void PaginateLeft()
     {
-        if (currentPage > 0)
+        await Task.Run(() =>
         {
-            page = currentPage - 1;
-            GetAllProcesses();
-        }
+            if (currentPage > 0)
+            {
+                page = currentPage - 1;
+                GetAllProcesses();
+            }
+        });
     }
 
     private async void GetAllProcesses()
