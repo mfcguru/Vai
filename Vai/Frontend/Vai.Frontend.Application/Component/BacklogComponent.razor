@@ -41,13 +41,7 @@
     </div>
     <div class="pagination-buttons">
         <button class="btn ml-1 page-btn page-btn-left"></button>
-        @foreach (var backlogItem in backlogItems)
-        {
-            for (var i = 1; i < backlogItem.TotalPages; i++)
-            {
-                <button class="btn ml-1 page-btn page-btn-active">@i</button>
-            }
-        }
+        <button class="btn ml-1 page-btn page-btn-active">1</button>
         <button class="btn ml-1 page-btn">></button>
     </div>
 </div>

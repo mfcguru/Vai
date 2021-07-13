@@ -8,6 +8,7 @@ using Vai.Shared.Interfaces.Process;
 using Vai.Shared.Models;
 using Vai.Shared.Params;
 using Vai.Shared.Results;
+using Vai.Backend.Core.Helpers;
 
 namespace Vai.Backend.Core.UseCases.Process
 {
@@ -22,10 +23,10 @@ namespace Vai.Backend.Core.UseCases.Process
         public async Task<CommandResult<List<GetAllProcessesCommandModel>>> Execute(GetAllProcessesCommandParams parameters)
         {
             var count = await context.Processes.CountAsync();
-            var totalPages = (count + parameters.PageSize - 1) / parameters.PageSize;
-
-            var result = await context.Processes
-                .Select(o => new GetAllProcessesCommandModel 
+            var items = await context.Processes
+                .Skip((parameters.Page - 1) * parameters.PageSize)
+                .Take(parameters.PageSize)
+                .Select(o => new GetAllProcessesCommandModel
                 {
                     ProcessId = o.ProcessId,
                     Client = o.Client,
@@ -36,10 +37,16 @@ namespace Vai.Backend.Core.UseCases.Process
                     Status = o.Status,
                     Efficiency = o.Efficiency,
                     Priority = o.Priority,
-                    TotalPages = totalPages
                 }).ToListAsync();
 
-            return new CommandResult<List<GetAllProcessesCommandModel>> { Data = result };
+            var result = new PaginationHelper<GetAllProcessesCommandModel>(items, count, parameters.Page, parameters.PageSize);
+
+            return new CommandResult<List<GetAllProcessesCommandModel>> 
+            { 
+                Data = result, 
+                CurrentPage = result.PageIndex, 
+                TotalPages = result.TotalPages 
+            };
         }
     }
 }

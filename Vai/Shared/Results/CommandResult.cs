@@ -12,5 +12,7 @@ namespace Vai.Shared.Results
     public class CommandResult<TData> : CommandResult
     {
         public TData Data { get; set; }
+        public int CurrentPage { get; set; }
+        public int TotalPages { get; set; }
     }
 }
