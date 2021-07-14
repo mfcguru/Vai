@@ -34,12 +34,12 @@
                 <tr>
                     <td style="display: flex"><input type="checkbox" class="form-check mr-2" style="margin-top: 5px;" /> @process.Client</td>
                     <td>@process.Robot</td>
-                    <td class="task-descr">@process.TaskDescription</td>
+                    <td class="task-descr">@(process.TaskDescription.Length > 25 ? process.TaskDescription.Substring(0, 25) + "..." : process.TaskDescription)</td>
                     <td>@process.StartTime</td>
                     <td>@process.ElapsedTime</td>
-                    <td><span class="status">@process.Status</span></td>
-                    <td><span class="efficiency">@process.Efficiency</span></td>
-                    <td><span class="priority">@process.Priority</span></td>
+                    <td><span class="status">@(process.Status.Length > 10 ? process.Status.Substring(0, 10) + "..." : process.Status)</span></td>
+                    <td><span class="efficiency">@(process.Efficiency.Length > 10 ? process.Efficiency.Substring(0, 10) + "..." : process.Efficiency)</span></td>
+                    <td><span class="priority">@(process.Priority.Length > 10 ? process.Priority.Substring(0, 10) + "..." : process.Priority)</span></td>
                 </tr>
             }
         </tbody>
@@ -53,7 +53,8 @@
         <button class="btn ml-1 page-btn page-btn-left" @onclick="PaginateLeft"></button>
         @for (var i = 1; i <= totalPages; i++ )
         {
-            <button class="btn ml-1 page-btn @(currentPage == i ? "page-btn-active" : "")" @onclick="() => PaginatePage(i)">@i</button>
+            var pageIndex = i;
+            <button class="btn ml-1 page-btn @(currentPage == i ? "page-btn-active" : "")" @onclick="() => PaginatePage(pageIndex)">@i</button>
         }
         <button class="btn ml-1 page-btn" @onclick="PaginateRight">></button>
     </div>

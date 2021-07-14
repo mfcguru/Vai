@@ -14,6 +14,7 @@ namespace Vai.Backend.Core.Entities
         }
 
         public virtual DbSet<Process> Processes { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -55,6 +56,27 @@ namespace Vai.Backend.Core.Entities
                 entity.Property(e => e.Status)
                     .IsRequired()
                     .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.ToTable("User");
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(256);
+
+                entity.Property(e => e.FirstName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.LastName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.PasswordHash).IsRequired();
+
+                entity.Property(e => e.PasswordSalt).IsRequired();
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -29,7 +29,7 @@
                 <tr>
                     <td style="display: flex"><input type="checkbox" class="form-check mr-2" style="margin-top: 5px;" /> @backlogItem.Client</td>
                     <td>@backlogItem.Robot</td>
-                    <td class="task-descr">@backlogItem.TaskDescription</td>
+                    <td class="task-descr">@(backlogItem.TaskDescription.Length > 25 ? backlogItem.TaskDescription.Substring(0, 25) + "..." : backlogItem.TaskDescription)</td>
                 </tr>
             }
         </tbody>
@@ -43,7 +43,8 @@
         <button class="btn ml-1 page-btn page-btn-left" @onclick="PaginateLeft"></button>
         @for (var i = 1; i <= totalPages; i++)
         {
-            <button class="btn ml-1 page-btn @(currentPage == i ? "page-btn-active" : "")" @onclick="() => PaginatePage(i)">@i</button>
+            var pageIndex = i;
+            <button class="btn ml-1 page-btn @(currentPage == i ? "page-btn-active" : "")" @onclick="() => PaginatePage(pageIndex)">@i</button>
         }
         <button class="btn ml-1 page-btn" @onclick="PaginateRight">></button>
     </div>
