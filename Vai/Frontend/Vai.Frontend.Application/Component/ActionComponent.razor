@@ -45,76 +45,77 @@
         </tbody>
     </table>
 </div>
-<div class="flex bg-white row-border-bottom">
+<div class="flex bg-white row-border-bottom" style="overflow: hidden;">
     <div class="show-results icon">
         Show: <span>10 Results </span>
     </div>
-    <div class="pagination-buttons">
+    <div class="flex pagination-buttons justify-content-center" style="overflow: hidden;">
         <button class="btn ml-1 page-btn page-btn-left" @onclick="PaginateLeft"></button>
-        @for (var i = 1; i <= totalPages; i++ )
+        <div class="all-buttons">
+            @for (var i = 1; i < totalPages - 3; i++)
+            {
+                var pageIndex = i;
+
+                <button class="btn page-btn
+                    @(pageIndex == 1 ? "": "ml-1")
+                    @(currentPage == i ? "page-btn-active" : "")"
+                        @onclick="() => HandlePageButtonClick(pageIndex)">
+                    @i
+                </button>
+            }
+        </div>
+        <span class="ml-1" style="color: #adadad;">...</span>
+        @for (var i = totalPages - 3; i <= totalPages; i++)
         {
             var pageIndex = i;
-            <button class="btn ml-1 page-btn @(currentPage == i ? "page-btn-active" : "")" @onclick="() => PaginatePage(pageIndex)">@i</button>
+
+            <button class="btn page-btn
+                @(currentPage == i ? "page-btn-active" : "")"
+                    @onclick="() => HandlePageButtonClick(pageIndex)">
+                @i
+            </button>
         }
         <button class="btn ml-1 page-btn" @onclick="PaginateRight">></button>
     </div>
 </div>
 
 @code {
+    List<GetAllProcessesCommandModel> processes = new List<GetAllProcessesCommandModel>();
     private int page { get; set; } = 1;
     private int pageSize { get; set; } = 4;
-    private int totalPages { get; set; }
+    private int totalPages { get; set; } = 24;
     private int currentPage { get; set; }
-    List<GetAllProcessesCommandModel> processes = new List<GetAllProcessesCommandModel>();
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
 
-        var result = await command.Execute(new GetAllProcessesCommandParams { Page = page, PageSize = pageSize });
-        processes = result.Data;
-        currentPage = result.CurrentPage;
-        totalPages = result.TotalPages;
+        await GetAllProcesses();
     }
 
-    private async void PaginatePage(int pageIndex)
+    private async Task HandlePageButtonClick(int pageIndex)
     {
-        await Task.Run(() =>
-        {
-            page = pageIndex;
-            GetAllProcesses();
-        });
+        page = pageIndex;
+        await GetAllProcesses();
     }
 
-    private async void PaginateRight()
+    private async Task PaginateRight()
     {
-        await Task.Run(() =>
-        {
-            if (currentPage < totalPages)
-            {
-                page = currentPage + 1;
-                GetAllProcesses();
-            }
-        });
+        page = currentPage + 1;
+        await GetAllProcesses();
     }
 
-    private async void PaginateLeft()
+    private async Task PaginateLeft()
     {
-        await Task.Run(() =>
-        {
-            if (currentPage > 0)
-            {
-                page = currentPage - 1;
-                GetAllProcesses();
-            }
-        });
+        page = currentPage - 1;
+        await GetAllProcesses();
     }
 
-    private async void GetAllProcesses()
+    private async Task GetAllProcesses()
     {
         var result = await command.Execute(new GetAllProcessesCommandParams { Page = page, PageSize = pageSize });
         processes = result.Data;
         currentPage = result.CurrentPage;
-        totalPages = result.TotalPages;
+        totalPages = 25;
     }
 }

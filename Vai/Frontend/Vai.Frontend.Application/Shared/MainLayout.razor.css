@@ -5,13 +5,9 @@
     background-color: #f1f1f1;
 }
 
-.content {
-    width: 100%;
-}
-
-
 .main {
-    flex: 1;
+    width: 100%;
+    overflow: hidden;
 }
 
 .sidebar {

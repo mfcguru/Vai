@@ -179,6 +179,10 @@ tbody > tr:hover > .task-descr {
     color: #fff;
 }
 
+.page-btn:focus {
+    box-shadow: none;
+}
+
 .page-btn-left::after {
     content: '\003C';
     color: #707070;
@@ -187,4 +191,15 @@ tbody > tr:hover > .task-descr {
 .page-btn-right::after {
     content: '\003E';
     color: #707070;
+}
+
+.all-buttons {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.last-buttons {
+    padding-left: 0;
+    white-space: nowrap;
 }

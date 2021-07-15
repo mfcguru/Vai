@@ -29,33 +29,52 @@
                 <tr>
                     <td style="display: flex"><input type="checkbox" class="form-check mr-2" style="margin-top: 5px;" /> @backlogItem.Client</td>
                     <td>@backlogItem.Robot</td>
-                    <td class="task-descr">@(backlogItem.TaskDescription.Length > 25 ? backlogItem.TaskDescription.Substring(0, 25) + "..." : backlogItem.TaskDescription)</td>
+                    <td class="task-descr">@(backlogItem.TaskDescription.Length > 35 ? backlogItem.TaskDescription.Substring(0, 35) + "..." : backlogItem.TaskDescription)</td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
-<div class="flex bg-white row-border-bottom">
+<div class="flex bg-white row-border-bottom" style="overflow: hidden;">
     <div class="show-results icon">
         Show: <span>10 Results </span>
     </div>
-    <div class="pagination-buttons">
+    <div class="flex pagination-buttons justify-content-center" style="overflow: hidden;">
         <button class="btn ml-1 page-btn page-btn-left" @onclick="PaginateLeft"></button>
-        @for (var i = 1; i <= totalPages; i++)
+        <div class="all-buttons">
+            @for (var i = 1; i < totalPages - 3; i++)
+            {
+                var pageIndex = i;
+                <button class="btn page-btn
+                    @(pageIndex == 1 ? "": "ml-1")
+                    @(currentPage == i ? "page-btn-active" : "")"
+                        style="margin-left: @marginLeftPagination;"
+                        @onclick="() => PaginatePage(pageIndex)">
+                    @i
+                </button>
+            }
+        </div>
+        <span class="ml-1" style="color: #adadad;">...</span>
+        @for (var i = totalPages - 3; i < totalPages; i++)
         {
             var pageIndex = i;
-            <button class="btn ml-1 page-btn @(currentPage == i ? "page-btn-active" : "")" @onclick="() => PaginatePage(pageIndex)">@i</button>
+            <button class="btn page-btn
+                @(currentPage == i ? "page-btn-active" : "")"
+                    @onclick="() => PaginatePage(pageIndex)">
+                @i
+            </button>
         }
         <button class="btn ml-1 page-btn" @onclick="PaginateRight">></button>
     </div>
 </div>
 
 @code {
+    private List<GetAllBacklogItemsCommandModel> backlogItems = new List<GetAllBacklogItemsCommandModel>();
     private int page { get; set; } = 1;
     private int pageSize { get; set; } = 3;
     private int currentPage { get; set; }
     private int totalPages { get; set; }
-    private List<GetAllBacklogItemsCommandModel> backlogItems = new List<GetAllBacklogItemsCommandModel>();
+    private string marginLeftPagination { get; set; } = "0px";
 
     protected override async Task OnInitializedAsync()
     {
@@ -64,7 +83,7 @@
         var result = await command.Execute(new GetAllBacklogItemsCommandParams { Page = page, PageSize = pageSize });
         backlogItems = result.Data;
         currentPage = result.CurrentPage;
-        totalPages = result.TotalPages;
+        totalPages = 25;
     }
 
     private async void PaginatePage(int pageIndex)
@@ -72,6 +91,7 @@
         await Task.Run(() =>
         {
             page = pageIndex;
+            PaginationButtonsChanged(page);
             GetAllProcesses();
         });
     }
@@ -83,6 +103,7 @@
             if (currentPage < totalPages)
             {
                 page = currentPage + 1;
+                PaginationButtonsChanged(page);
                 GetAllProcesses();
             }
         });
@@ -95,8 +116,18 @@
             if (currentPage > 0)
             {
                 page = currentPage - 1;
+                PaginationButtonsChanged(page);
                 GetAllProcesses();
             }
+        });
+    }
+
+    private async void PaginationButtonsChanged(int pageIndex)
+    {
+        await Task.Run(() =>
+        {
+            var marginLeftValue = pageIndex * 29 - 29;
+            marginLeftPagination = "-" + marginLeftValue + "px";
         });
     }
 

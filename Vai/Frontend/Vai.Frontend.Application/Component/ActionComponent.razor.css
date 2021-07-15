@@ -204,7 +204,6 @@ tbody > tr:nth-child(5) > td > .priority, tbody > tr:nth-child(6) > td > .priori
 
 .pagination-buttons {
     width: 100%;
-    text-align: center;
     padding: 7px;
 }
 
@@ -217,6 +216,10 @@ tbody > tr:nth-child(5) > td > .priority, tbody > tr:nth-child(6) > td > .priori
 .page-btn-active {
     background-color: #13ae83;
     color: #fff;
+}
+
+.page-btn:focus {
+    box-shadow: none;
 }
 
 .page-btn-left::after {
@@ -232,4 +235,15 @@ tbody > tr:nth-child(5) > td > .priority, tbody > tr:nth-child(6) > td > .priori
 .form-check {
     border-radius: 2px;
     background-color: black;
+}
+
+.all-buttons {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.last-buttons {
+    padding-left: 0;
+    white-space: nowrap;
 }
