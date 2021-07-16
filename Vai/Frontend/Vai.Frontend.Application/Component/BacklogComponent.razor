@@ -3,7 +3,7 @@
 <div class="flex bg-white row-border-top mt-3">
     <div class="title">BACKLOGS</div>
     <div class="display-text">
-        <span style="margin-top: 10px !important">Displaying 10 of a total 236 processes</span>
+        <span style="margin-top: 10px !important">Displaying @pageSize of a total 236 processes</span>
     </div>
     <div class="button-option">
         <button class="button icon float-right">Actions</button>
@@ -37,7 +37,7 @@
 </div>
 <div class="flex bg-white row-border-bottom" style="overflow: hidden;">
     <div class="show-results icon">
-        Show: <span>10 Results </span>
+        Show: <span>@pageSize Results </span>
     </div>
     <div class="flex pagination-buttons justify-content-center" style="overflow: hidden;">
         <button class="btn ml-1 page-btn page-btn-left" @onclick="PaginateLeft"></button>
