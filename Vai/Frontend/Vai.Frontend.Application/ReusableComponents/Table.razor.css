@@ -80,46 +80,6 @@ tbody > tr:hover > .task-descr {
     color: #fff;
 }
 
-tbody > tr:hover > td > .status,
-tbody > tr:hover > td > .efficiency,
-tbody > tr:hover > td > .priority {
-    color: #00a373;
-    background-color: #d0efe6;
-}
-
-.status, .efficiency {
-    background-color: #e3e3e3;
-    font-size: 12px;
-    color: #5b5b5b;
-    padding: 3px 8px;
-    text-transform: uppercase;
-    font-weight: 400;
-    border-radius: 2px;
-}
-
-.priority {
-    font-size: 12px;
-    padding: 3px 8px;
-    text-transform: uppercase;
-    font-weight: 400;
-    border-radius: 2px;
-}
-
-tbody > tr:nth-child(1) > td > .priority, tbody > tr:nth-child(2) > td > .priority {
-    background-color: #d3fff0;
-    color: #1fb37d;
-}
-
-tbody > tr:nth-child(3) > td > .priority, tbody > tr:nth-child(4) > td > .priority {
-    background-color: #fef8d3;
-    color: #c68000;
-}
-
-tbody > tr:nth-child(5) > td > .priority, tbody > tr:nth-child(6) > td > .priority {
-    background-color: #ffdbd5;
-    color: #bc3d2f;
-}
-
 .title {
     font-size: 14px;
     font-weight: bold;
@@ -190,8 +150,8 @@ tbody > tr:nth-child(5) > td > .priority, tbody > tr:nth-child(6) > td > .priori
 .show-results {
     font-size: 14px;
     color: #adadad;
-    padding-top: 11px;
-    padding-bottom: 5px;
+    padding-top: 14px;
+    padding-bottom: 8px;
     padding-left: 8px;
     padding-right: 8px;
     border-right: 1px solid #e7e7e7;
@@ -204,7 +164,8 @@ tbody > tr:nth-child(5) > td > .priority, tbody > tr:nth-child(6) > td > .priori
 
 .pagination-buttons {
     width: 100%;
-    padding: 7px;
+    text-align: center;
+    padding: 11px;
 }
 
 .page-btn {
@@ -232,28 +193,13 @@ tbody > tr:nth-child(5) > td > .priority, tbody > tr:nth-child(6) > td > .priori
     color: #707070;
 }
 
-.form-check {
-    border-radius: 2px;
-    background-color: black;
-}
-
-.width-max {
+.all-buttons {
     width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .last-buttons {
     padding-left: 0;
     white-space: nowrap;
-}
-
-.fake-pagination-div {
-    visibility: hidden;
-    position: absolute;
-    cursor: default;
-    user-select: none;
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -moz-user-select: none; /* Old versions of Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
