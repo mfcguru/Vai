@@ -51,24 +51,38 @@
         Show: <span>@pageSize Results </span>
     </div>
     <div class="flex pagination-buttons justify-content-center overflow-hidden">
-        <button class="btn ml-1 page-btn page-btn-left" @onclick="HandlePaginateLeft"></button>
-        <div class="overflow-hidden" id="actionPaginationDiv" style="white-space: nowrap">
-            @for (var i = 1; i <= totalPages - lastPages; i++)
-            {
-                var pageIndex = i;
 
-                <button class="btn page-btn
-            @(pageIndex == 1 ? "" : "ml-1")
-            @(currentPage == i ? "page-btn-active" : "")"
-                        @onclick="() => HandlePageButtonClick(pageIndex)">
-                    @i
-                </button>
-            }
+        <button class="btn ml-1 page-btn page-btn-left" @onclick="HandlePaginateLeft"></button>
+        <div class="@(paginationDivIsOverflow ? "width-max": "") overflow-hidden position-relative">
+            <!-- Imitation Element For Pagination Div Below For Detecting Overflow ( Invisible ) -->
+            <div class="fake-pagination-div">
+                @for (var i = 1; i <= totalPages - lastPages; i++)
+                {
+                    var index = i;
+                    <button class="btn page-btn @(index == 1 ? "" : "ml-1")">
+                        @i
+                    </button>
+                }
+            </div>
+            <!-- Original Pagination Div ( Visible ) -->
+            <div id="actionPaginationDiv" style="white-space: nowrap">
+                @for (var i = 1; i <= totalPages - lastPages; i++)
+                {
+                    var pageIndex = i;
+
+                    <button class="btn page-btn
+                @(pageIndex == 1 ? "" : "ml-1")
+                @(currentPage == i ? "page-btn-active" : "")"
+                            @onclick="() => HandlePageButtonClick(pageIndex)">
+                        @i
+                    </button>
+                }
+            </div>
         </div>
         @if (paginationDivIsOverflow)
         {
             <span class="ml-1" style="color: #adadad;">...</span>
-            for (var i = totalPages - ( lastPages - 1 ); i <= totalPages; i++)
+            for (var i = totalPages - (lastPages - 1); i <= totalPages; i++)
             {
                 var pageIndex = i;
 
@@ -95,6 +109,9 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+
+        var lDotNetReference = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("GLOBAL.SetDotnetReference", lDotNetReference);
 
         await HandleGetAllProcesses();
         await HandlePaginationDivOverflow();

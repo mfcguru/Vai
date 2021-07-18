@@ -1,4 +1,5 @@
 ﻿@inject IGetAllBacklogItemsCommand command
+@inject IJSRuntime JSRuntime
 
 <div class="flex bg-white row-border-top mt-3">
     <div class="title">BACKLOGS</div>
@@ -35,14 +36,14 @@
         </tbody>
     </table>
 </div>
-<div class="flex bg-white row-border-bottom" style="overflow: hidden;">
+<div class="flex bg-white row-border-bottom overflow-hidden">
     <div class="show-results icon">
         Show: <span>@pageSize Results </span>
     </div>
-    <div class="flex pagination-buttons justify-content-center" style="overflow: hidden;">
+    <div class="flex pagination-buttons justify-content-center overflow-hidden">
         <button class="btn ml-1 page-btn page-btn-left" @onclick="PaginateLeft"></button>
-        <div class="all-buttons">
-            @for (var i = 1; i < totalPages - 3; i++)
+        <div class="overflow-hidden" id=@paginationDiv style="white-space: nowrap">
+            @for (var i = 1; i <= totalPages - lastPages; i++)
             {
                 var pageIndex = i;
                 <button class="btn page-btn
@@ -54,15 +55,18 @@
                 </button>
             }
         </div>
-        <span class="ml-1" style="color: #adadad;">...</span>
-        @for (var i = totalPages - 3; i < totalPages; i++)
+        @if (paginationDivIsOverflow)
         {
-            var pageIndex = i;
-            <button class="btn page-btn
+            <span class="ml-1" style="color: #adadad;">...</span>
+            @for (var i = totalPages - (lastPages - 1); i <= totalPages; i++)
+            {
+                var pageIndex = i;
+                <button class="btn page-btn
                 @(currentPage == i ? "page-btn-active" : "")"
-                    @onclick="() => PaginatePage(pageIndex)">
-                @i
-            </button>
+                        @onclick="() => PaginatePage(pageIndex)">
+                    @i
+                </button>
+            }
         }
         <button class="btn ml-1 page-btn" @onclick="PaginateRight">></button>
     </div>
@@ -70,59 +74,84 @@
 
 @code {
     private List<GetAllBacklogItemsCommandModel> backlogItems = new List<GetAllBacklogItemsCommandModel>();
+    private bool paginationDivIsOverflow { get; set; }
+    private string paginationDiv = "backlogPaginationDiv";
     private int page { get; set; } = 1;
     private int pageSize { get; set; } = 3;
     private int currentPage { get; set; }
     private int totalPages { get; set; }
+    private int lastPages { get; set; }
     private string marginLeftPagination { get; set; } = "0px";
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
 
-        var result = await command.Execute(new GetAllBacklogItemsCommandParams { Page = page, PageSize = pageSize });
-        backlogItems = result.Data;
-        currentPage = result.CurrentPage;
-        totalPages = 25;
+        var lDotNetReference = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("SetBacklogReference", lDotNetReference);
+
+        await GetAllProcesses();
+        await HandlePaginationDivOverflow();
     }
 
-    private async void PaginatePage(int pageIndex)
+    [JSInvokable("HandlePaginationDivOverflow")]
+    public async Task HandlePaginationDivOverflow()
+    {
+        var state = await JSRuntime.InvokeAsync<bool>("checkTablePaginationDivOverflow", paginationDiv);
+        await Task.Run(() =>
+        {
+            paginationDivIsOverflow = state;
+        });
+
+        if (paginationDivIsOverflow)
+        {
+            lastPages = 3;
+        }
+        else
+        {
+            lastPages = 0;
+        }
+        Console.WriteLine(paginationDivIsOverflow);
+        StateHasChanged();
+    }
+
+    private async Task PaginatePage(int pageIndex)
     {
         await Task.Run(() =>
         {
             page = pageIndex;
-            PaginationButtonsChanged(page);
-            GetAllProcesses();
         });
+        await PaginationButtonsChanged(page);
+        await GetAllProcesses();
     }
 
-    private async void PaginateRight()
+    private async Task PaginateRight()
     {
         await Task.Run(() =>
         {
             if (currentPage < totalPages)
             {
                 page = currentPage + 1;
-                PaginationButtonsChanged(page);
-                GetAllProcesses();
             }
         });
+        await PaginationButtonsChanged(page);
+        await GetAllProcesses();
     }
 
-    private async void PaginateLeft()
+    private async Task PaginateLeft()
     {
         await Task.Run(() =>
         {
             if (currentPage > 0)
             {
                 page = currentPage - 1;
-                PaginationButtonsChanged(page);
-                GetAllProcesses();
             }
         });
+        await PaginationButtonsChanged(page);
+        await GetAllProcesses();
     }
 
-    private async void PaginationButtonsChanged(int pageIndex)
+    private async Task PaginationButtonsChanged(int pageIndex)
     {
         await Task.Run(() =>
         {
@@ -131,11 +160,11 @@
         });
     }
 
-    private async void GetAllProcesses()
+    private async Task GetAllProcesses()
     {
         var result = await command.Execute(new GetAllBacklogItemsCommandParams { Page = page, PageSize = pageSize });
         backlogItems = result.Data;
         currentPage = result.CurrentPage;
-        totalPages = result.TotalPages;
+        totalPages = 12;
     }
 }

@@ -1,23 +1,23 @@
-﻿var GLOBAL = {};
-GLOBAL.DotNetReference = null;
-GLOBAL.SetDotnetReference = function (pDotNetReference) {
-    GLOBAL.DotNetReference = pDotNetReference;
+﻿var BacklogReference = null;
+
+function SetBacklogReference (pDotNetReference) {
+    BacklogReference = pDotNetReference;
 };
 
 
 window.onresize = executeOnResize;
 
-function executeOnResize() {
-    callDotnetHandlePaginationDivOverflow();
+function executeOnResize () {
+    callDotnetHandleBacklogPaginationDivOverflow();
 }
 
-function callDotnetHandlePaginationDivOverflow() {
-    GLOBAL.DotNetReference.invokeMethodAsync("HandlePaginationDivOverflow");
+function callDotnetHandleBacklogPaginationDivOverflow () {
+    BacklogReference.invokeMethodAsync("HandlePaginationDivOverflow");
 }
 
-function isOverflowing(id) {
+function checkTablePaginationDivOverflow (id) {
     var el = document.getElementById(id);
-    var isOverflowing = el.clientHeight > 43;
+    var isOverflowing = el.clientWidth < el.scrollWidth;
 
     return isOverflowing;
 }

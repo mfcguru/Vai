@@ -64,9 +64,9 @@ tbody > tr:nth-child(odd) {
     background-color: #f8f8f8;
 }
 
-tbody > tr:nth-child(odd):hover {
-    background-color: #13ae83;
-}
+    tbody > tr:nth-child(odd):hover {
+        background-color: #13ae83;
+    }
 
 tbody > tr:hover > td {
     color: #dbede7;
@@ -80,8 +80,8 @@ tbody > tr:hover > .task-descr {
     color: #fff;
 }
 
-tbody > tr:hover > td > .status, 
-tbody > tr:hover > td > .efficiency, 
+tbody > tr:hover > td > .status,
+tbody > tr:hover > td > .efficiency,
 tbody > tr:hover > td > .priority {
     color: #00a373;
     background-color: #d0efe6;
@@ -140,7 +140,7 @@ tbody > tr:nth-child(5) > td > .priority, tbody > tr:nth-child(6) > td > .priori
     padding-right: 10px;
     width: 100%;
     overflow: hidden;
-    white-space:nowrap;
+    white-space: nowrap;
 }
 
 .button-option {
@@ -159,7 +159,7 @@ tbody > tr:nth-child(5) > td > .priority, tbody > tr:nth-child(6) > td > .priori
     padding-bottom: 10px;
     padding-left: 10px;
     padding-right: 10px;
-    white-space:nowrap;
+    white-space: nowrap;
 }
 
 .sort-by-text {
@@ -195,12 +195,12 @@ tbody > tr:nth-child(5) > td > .priority, tbody > tr:nth-child(6) > td > .priori
     padding-left: 8px;
     padding-right: 8px;
     border-right: 1px solid #e7e7e7;
-    white-space:nowrap;
+    white-space: nowrap;
 }
 
-.show-results > span {
-    color: #00a87b;
-}
+    .show-results > span {
+        color: #00a87b;
+    }
 
 .pagination-buttons {
     width: 100%;
