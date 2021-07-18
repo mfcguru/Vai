@@ -7,9 +7,9 @@
         InvokePage="SetPage" 
         InvokePageSize="SetPageSize"
         InvokeCurrentPage="SetCurrentPage"
-        title="title"
         items="backlogItems"
-        paginationDivId="paginationDivId" 
+        title="@title"
+        paginationDivId="@paginationDivId" 
         page="page"
         pageSize="pageSize"
         currentPage="currentPage"
@@ -19,8 +19,8 @@
 
 @code {
     private List<GetAllBacklogItemsCommandModel> backlogItems = new List<GetAllBacklogItemsCommandModel>();
-    private string title { get; set; } = "Backlogs";
-    private string paginationDivId = "backlogPaginationDiv";
+    private string title { get; set; } = "BACKLOGS";
+    private string paginationDivId { get; set; } = "backlogPaginationDiv";
     private int page { get; set; } = 1;
     private int pageSize { get; set; } = 5;
     private int currentPage { get; set; }
@@ -73,7 +73,6 @@
             totalPages = result.TotalPages;
         });
         loading = true;
-        StateHasChanged();
 
     }
 }

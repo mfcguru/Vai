@@ -6,17 +6,20 @@
     <div class="display-text">
         <span style="margin-top: 10px !important">Displaying @pageSize of a total 236 processes</span>
     </div>
-    <div class="button-option">
-        <button class="button icon float-right">Actions</button>
-    </div>
-    <div class="sort-by icon">
+    @if (title == "ACTIONS")
+    {
+        <div class="button-option">
+            <button class="button icon float-right">Actions</button>
+        </div>
+    }
+    <div class="sort-by icon" style="border-left: @(title == "BACKLOGS" ? "1px solid #e7e7e7" : "none")">
         Sort by:
         <span class="sort-by-text">Relevance</span>
     </div>
     <div class="option">...</div>
 </div>
-<div class="row-border" style="overflow-x:auto;width: 100%;">
-    <table style="width: 100%">
+<div class="row-border overflow-auto width-max">
+    <table class="width-max">
         <thead class="bg-white">
             <tr>
                 <th scope="col" style="display: flex"><input type="checkbox" class="form-check mr-2" style="margin-top: 5px;" /> Client</th>
@@ -73,13 +76,13 @@
 
 @code {
     [Parameter]
-    public List<GetAllBacklogItemsCommandModel> items { get; set; }
-    [Parameter]
     public EventCallback<int> InvokePage { get; set; }
     [Parameter]
     public EventCallback<int> InvokePageSize { get; set; }
     [Parameter]
     public EventCallback<int> InvokeCurrentPage { get; set; }
+    [Parameter]
+    public List<GetAllBacklogItemsCommandModel> items { get; set; }
     [Parameter]
     public string title { get; set; }
     [Parameter]
