@@ -237,6 +237,5 @@ tbody > tr:hover > .task-descr {
 }
 
 .hide-previous-page {
-    position: absolute;
-    margin-top: -50px;
+    display: none;
 }

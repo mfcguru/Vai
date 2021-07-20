@@ -100,30 +100,19 @@ else
             @for (var i = 1; i <= totalPages - lastPages; i++)
             {
                 var pageIndex = i;
-                if (paginationButtonsSlideLeftState == false)
-                {
-                    <button class="btn page-btn
-                    @(pageIndex == 1 ? "": "ml-1")
-                    @(currentPage == pageIndex ? "page-btn-active" : "")"
-                            @onclick="() => PaginatePage(pageIndex)">
-                        @i
-                    </button>
-                }
-                else
-                {
-                    <button class="btn page-btn
-                    @(pageIndex == 1 ? "": "ml-1")
-                    @(currentPage == pageIndex ? "page-btn-active" : "")
-                    @(currentPage > pageIndex && paginationButtonsSlideRightState == true ? "hide-previous-page" : "")"
-                            @onclick="() => PaginatePage(pageIndex)">
-                        @i
-                    </button>
-                }
+
+                <button class="btn page-btn
+                @(pageIndex == 1 ? "" : "ml-1")
+                @(currentPage == pageIndex ? "page-btn-active" : "")
+                @(hiddenButtons >= pageIndex ? "hide-previous-page" : "")"
+                        @onclick="() => PaginatePage(pageIndex)">
+                    @i
+                </button>
             }
         </div>
         @if (paginationButtonsSlideLeftState)
         {
-            <span class="ml-1" style="color: #adadad;">...</span>
+            <span class="ml-1" style="color: #adadad;">..</span>
             @for (var i = totalPages - (lastPages - 1); i <= totalPages; i++)
             {
                 var pageIndex = i;
@@ -170,6 +159,8 @@ else
     [Parameter]
     public int lastPages { get; set; }
 
+    private int hiddenButtons { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
@@ -177,38 +168,46 @@ else
 
     private async Task PaginatePage(int pageIndex)
     {
-        await Task.Run(() =>
+        if (page != pageIndex)
         {
-            page = pageIndex;
-        });
-        await SetPaginationData();
-        StateHasChanged();
+            await HideButtons();
+            await Task.Run(() =>
+            {
+                page = pageIndex;
+            });
+            await SetPaginationData();
+            StateHasChanged();
+        }
     }
 
     private async Task PaginateRight()
     {
-        await Task.Run(() =>
+        if (page < totalPages)
         {
-            if (currentPage < totalPages)
+            await HideButtons();
+            await Task.Run(() =>
             {
                 page = currentPage + 1;
-            }
-        });
-        await SetPaginationData();
-        StateHasChanged();
+
+            });
+            await SetPaginationData();
+            StateHasChanged();
+        }
     }
 
     private async Task PaginateLeft()
     {
-        await Task.Run(() =>
+        if (page != 1)
         {
-            if (currentPage > 1)
+            await ShowButtons();
+            await Task.Run(() =>
             {
+
                 page = currentPage - 1;
-            }
-        });
-        await SetPaginationData();
-        StateHasChanged();
+            });
+            await SetPaginationData();
+            StateHasChanged();
+        }
     }
 
     internal protected async Task SetPaginationData()
@@ -225,5 +224,28 @@ else
             var id = (idString + idNumber).ToString();
             Console.WriteLine(id);
         });
+    }
+
+    private async Task ShowButtons()
+    {
+        await Task.Run(() =>
+        {
+            if (hiddenButtons == currentPage - 1)
+            {
+                hiddenButtons -= 1;
+            }
+        });
+    }
+
+    private async Task HideButtons()
+    {
+        await Task.Run(() =>
+        {
+            if(paginationButtonsSlideLeftState)
+            {
+                hiddenButtons = currentPage;
+            }
+        });
+        StateHasChanged();
     }
 }
