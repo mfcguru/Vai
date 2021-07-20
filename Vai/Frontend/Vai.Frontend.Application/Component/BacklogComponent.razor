@@ -4,9 +4,9 @@
 @if(loading == true) 
 {
     <Vai.Frontend.Application.ReusableComponents.Table 
-        InvokePage="SetPage" 
-        InvokePageSize="SetPageSize"
-        InvokeCurrentPage="SetCurrentPage"
+        SetPage="SetPage" 
+        SetPageSize="SetPageSize"
+        SetCurrentPage="SetCurrentPage"
         items="backlogItems"
         title="@title"
         paginationDivId="@paginationDivId" 
@@ -14,6 +14,10 @@
         pageSize="pageSize"
         currentPage="currentPage"
         totalPages="totalPages"
+        paginationDivOverflow="paginationDivOverflow"
+        paginationButtonsSlideLeftState="paginationButtonsSlideLeftState"
+        paginationButtonsSlideRightState="paginationButtonsSlideRightState"
+        lastPages="lastPages"
     />
 }
 
@@ -22,57 +26,105 @@
     private string title { get; set; } = "BACKLOGS";
     private string paginationDivId { get; set; } = "backlogPaginationDiv";
     private int page { get; set; } = 1;
-    private int pageSize { get; set; } = 5;
+    private int pageSize { get; set; } = 7;
     private int currentPage { get; set; }
     private int totalPages { get; set; }
+    private bool paginationDivOverflow { get; set; }
+    private bool paginationButtonsSlideLeftState { get; set; }
+    private bool paginationButtonsSlideRightState { get; set; }
+    private int lastPages { get; set; }
     private bool loading { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
 
-        await GetAllProcesses();
+        var lDotNetReference = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("SetBacklogReference", lDotNetReference);
+
+        await GetAllBacklogItems();
+        if(loading == false)
+        {
+            await HandleButtonSlideLeft();
+        }
     }
 
-    private async Task SetPage(int pageValue)
+    [JSInvokable("HandleButtonSlideLeft")]
+    public async Task HandleButtonSlideLeft()
+    {
+        var state = await JSRuntime.InvokeAsync<bool>("checkTablePaginationScrollLeft", paginationDivId);
+        await Task.Run(() =>
+        {
+            paginationButtonsSlideLeftState = state;
+        });
+
+        if (paginationButtonsSlideLeftState)
+        {
+            lastPages = 3;
+        }
+        else
+        {
+            lastPages = 0;
+        }
+        StateHasChanged();
+    }
+
+    private async Task HandleButtonSlideRight()
     {
         await Task.Run(() =>
         {
-            page = pageValue;
-            StateHasChanged();
+            if (page > 1)
+            {
+                paginationButtonsSlideRightState = true;
+            }
+            else
+            {
+                paginationButtonsSlideRightState = false;
+            }
         });
-        await GetAllProcesses();
+        StateHasChanged();
     }
 
-    private async Task SetPageSize(int pageSizeValue)
+    private async Task SetPage(int newPage)
     {
         await Task.Run(() =>
         {
-            pageSize = pageSizeValue;
+            page = newPage;
             StateHasChanged();
         });
-        await GetAllProcesses();
+        await HandleButtonSlideLeft();
+        await HandleButtonSlideRight();
+        await GetAllBacklogItems();
     }
-    private async Task SetCurrentPage(int currentPageValue)
+
+    private async Task SetPageSize(int newPageSize)
     {
         await Task.Run(() =>
         {
-            currentPage = currentPageValue;
+            pageSize = newPageSize;
             StateHasChanged();
         });
-        await GetAllProcesses();
+        await GetAllBacklogItems();
+    }
+    private async Task SetCurrentPage(int newCurrentPage)
+    {
+        await Task.Run(() =>
+        {
+            currentPage = newCurrentPage;
+            StateHasChanged();
+        });
+        await GetAllBacklogItems();
     }
 
-    private async Task GetAllProcesses()
+    private async Task GetAllBacklogItems()
     {
         var result = await command.Execute(new GetAllBacklogItemsCommandParams { Page = page, PageSize = pageSize });
         await Task.Run(() =>
         {
             backlogItems = result.Data;
             currentPage = result.CurrentPage;
-            totalPages = result.TotalPages;
+            totalPages = 12;
         });
         loading = true;
-
     }
-}
+    }

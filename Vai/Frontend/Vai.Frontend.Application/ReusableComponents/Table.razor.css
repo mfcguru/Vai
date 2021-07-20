@@ -80,6 +80,46 @@ tbody > tr:hover > td {
     color: #3d3d3d;
 }
 
+.status, .efficiency {
+    background-color: #e3e3e3;
+    font-size: 12px;
+    color: #5b5b5b;
+    padding: 3px 8px;
+    text-transform: uppercase;
+    font-weight: 400;
+    border-radius: 2px;
+}
+
+.priority {
+    font-size: 12px;
+    padding: 3px 8px;
+    text-transform: uppercase;
+    font-weight: 400;
+    border-radius: 2px;
+}
+
+tbody > tr:nth-child(1) > td > .priority, tbody > tr:nth-child(2) > td > .priority {
+    background-color: #d3fff0;
+    color: #1fb37d;
+}
+
+tbody > tr:nth-child(3) > td > .priority, tbody > tr:nth-child(4) > td > .priority {
+    background-color: #fef8d3;
+    color: #c68000;
+}
+
+tbody > tr:nth-child(5) > td > .priority, tbody > tr:nth-child(6) > td > .priority {
+    background-color: #ffdbd5;
+    color: #bc3d2f;
+}
+
+tbody > tr:hover > td > .status,
+tbody > tr:hover > td > .efficiency,
+tbody > tr:hover > td > .priority {
+    color: #00a373;
+    background-color: #d0efe6;
+}
+
 tbody > tr:hover > .task-descr {
     color: #fff;
 }
@@ -89,19 +129,13 @@ tbody > tr:hover > .task-descr {
     font-weight: bold;
     color: #0d0d0d;
     border-right: 1px solid #e7e7e7;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 10px;
 }
 
 .display-text {
     color: #adadad;
     font-size: 14px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 10px;
     width: 100%;
     overflow: hidden;
     white-space: nowrap;
@@ -110,7 +144,6 @@ tbody > tr:hover > .task-descr {
 .button-option {
     padding-top: 5px;
     padding-bottom: 3px;
-    border-right: 1px solid #e7e7e7;
     padding-left: 10px;
     padding-right: 10px;
 }
@@ -119,10 +152,8 @@ tbody > tr:hover > .task-descr {
     font-size: 14px;
     color: #adadad;
     border-right: 1px solid #e7e7e7;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
+    border-left: 1px solid #e7e7e7;
+    padding: 10px;
     white-space: nowrap;
 }
 
@@ -133,10 +164,7 @@ tbody > tr:hover > .task-descr {
 
 .option {
     font-size: 14px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 10px;
 }
 
 .button {
@@ -206,4 +234,9 @@ tbody > tr:hover > .task-descr {
 .last-buttons {
     padding-left: 0;
     white-space: nowrap;
+}
+
+.hide-previous-page {
+    position: absolute;
+    margin-top: -50px;
 }

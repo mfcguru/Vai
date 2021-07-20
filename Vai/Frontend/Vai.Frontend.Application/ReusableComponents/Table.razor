@@ -1,7 +1,7 @@
 ﻿@inject IGetAllBacklogItemsCommand command
 @inject IJSRuntime JSRuntime
 
-<div class="flex bg-white row-border-top mt-3">
+<div class="flex bg-white row-border-top">
     <div class="title">@title</div>
     <div class="display-text">
         <span style="margin-top: 10px !important">Displaying @pageSize of a total 236 processes</span>
@@ -12,12 +12,45 @@
             <button class="button icon float-right">Actions</button>
         </div>
     }
-    <div class="sort-by icon" style="border-left: @(title == "BACKLOGS" ? "1px solid #e7e7e7" : "none")">
+    <div class="sort-by icon">
         Sort by:
         <span class="sort-by-text">Relevance</span>
     </div>
     <div class="option">...</div>
 </div>
+@if (title == "BACKLOGS")
+{
+    <div class="row-border overflow-auto width-max">
+        <table class="width-max">
+            <thead class="bg-white">
+                <tr>
+                    <th scope="col" style="display: flex"><input type="checkbox" class="form-check mr-2" style="margin-top: 5px;" /> Client</th>
+                    <th scope="col">Robot</th>
+                    <th scope="col">Task Description</th>
+                </tr>
+            </thead>
+            <tbody class="tbody">
+                @foreach (var item in items)
+                {
+                    <tr>
+                        <td style="display: flex">
+                            <input type="checkbox" 
+                                   class="form-check mr-2" 
+                                   style="margin-top: 5px;" 
+                                   id="backlog-checkbox-@item.ProcessId" 
+                                   @onclick='() => CheckCheckbox("backlog-checkbox-", item.ProcessId)'
+                            /> @item.Client
+                        </td>
+                        <td>@item.Robot</td>
+                        <td class="task-descr">@(item.TaskDescription.Length > 35 ? item.TaskDescription.Substring(0, 35) + "..." : item.TaskDescription)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
 <div class="row-border overflow-auto width-max">
     <table class="width-max">
         <thead class="bg-white">
@@ -25,46 +58,77 @@
                 <th scope="col" style="display: flex"><input type="checkbox" class="form-check mr-2" style="margin-top: 5px;" /> Client</th>
                 <th scope="col">Robot</th>
                 <th scope="col">Task Description</th>
+                <th scope="col">Start Time</th>
+                <th scope="col">Elapsed Duration</th>
+                <th scope="col">Status</th>
+                <th scope="col">Efficiency</th>
+                <th scope="col">Priority</th>
             </tr>
         </thead>
         <tbody class="tbody">
-            @foreach (var item in items)
+            @foreach (var process in processes)
             {
-                <tr>
-                    <td style="display: flex"><input type="checkbox" class="form-check mr-2" style="margin-top: 5px;" /> @item.Client</td>
-                    <td>@item.Robot</td>
-                    <td class="task-descr">@(item.TaskDescription.Length > 35 ? item.TaskDescription.Substring(0, 35) + "..." : item.TaskDescription)</td>
-                </tr>
+            <tr>
+                <td style="display: flex">
+                    <input type="checkbox" 
+                           class="form-check mr-2" 
+                           style="margin-top: 5px;" 
+                           id="action-checkbox-@process.ProcessId" 
+                           @onclick='() => CheckCheckbox("action-checkbox-", process.ProcessId)'
+                        /> @process.Client
+                </td>
+                <td>@process.Robot</td>
+                <td class="task-descr">@(process.TaskDescription.Length > 25 ? process.TaskDescription.Substring(0, 25) + "..." : process.TaskDescription)</td>
+                <td>@process.StartTime</td>
+                <td>@process.ElapsedTime</td>
+                <td><span class="status">@(process.Status.Length > 10 ? process.Status.Substring(0, 10) + "..." : process.Status)</span></td>
+                <td><span class="efficiency">@(process.Efficiency.Length > 10 ? process.Efficiency.Substring(0, 10) + "..." : process.Efficiency)</span></td>
+                <td><span class="priority">@(process.Priority.Length > 10 ? process.Priority.Substring(0, 10) + "..." : process.Priority)</span></td>
+            </tr>
             }
         </tbody>
     </table>
 </div>
+}
 <div class="flex bg-white row-border-bottom overflow-hidden">
     <div class="show-results icon">
         Show: <span>@pageSize Results </span>
     </div>
     <div class="flex pagination-buttons justify-content-center overflow-hidden">
         <button class="btn ml-1 page-btn page-btn-left" @onclick="PaginateLeft"></button>
-        <div class="overflow-hidden" id=@paginationDivId style="white-space: nowrap">
+        <div class="overflow-hidden position-relative" id=@paginationDivId style="white-space: nowrap;">
             @for (var i = 1; i <= totalPages - lastPages; i++)
             {
                 var pageIndex = i;
-                <button class="btn page-btn
+                if (paginationButtonsSlideLeftState == false)
+                {
+                    <button class="btn page-btn
                     @(pageIndex == 1 ? "": "ml-1")
-                    @(currentPage == i ? "page-btn-active" : "")"
-                        @onclick="() => PaginatePage(pageIndex)">
-                    @i
-                </button>
+                    @(currentPage == pageIndex ? "page-btn-active" : "")"
+                            @onclick="() => PaginatePage(pageIndex)">
+                        @i
+                    </button>
+                }
+                else
+                {
+                    <button class="btn page-btn
+                    @(pageIndex == 1 ? "": "ml-1")
+                    @(currentPage == pageIndex ? "page-btn-active" : "")
+                    @(currentPage > pageIndex && paginationButtonsSlideRightState == true ? "hide-previous-page" : "")"
+                            @onclick="() => PaginatePage(pageIndex)">
+                        @i
+                    </button>
+                }
             }
         </div>
-        @if (paginationDivIsOverflow)
+        @if (paginationButtonsSlideLeftState)
         {
             <span class="ml-1" style="color: #adadad;">...</span>
             @for (var i = totalPages - (lastPages - 1); i <= totalPages; i++)
             {
                 var pageIndex = i;
                 <button class="btn page-btn
-                @(currentPage == i ? "page-btn-active" : "")"
+                    @(currentPage == i ? "page-btn-active" : "")"
                         @onclick="() => PaginatePage(pageIndex)">
                     @i
                 </button>
@@ -76,13 +140,15 @@
 
 @code {
     [Parameter]
-    public EventCallback<int> InvokePage { get; set; }
+    public EventCallback<int> SetPage { get; set; }
     [Parameter]
-    public EventCallback<int> InvokePageSize { get; set; }
+    public EventCallback<int> SetPageSize { get; set; }
     [Parameter]
-    public EventCallback<int> InvokeCurrentPage { get; set; }
+    public EventCallback<int> SetCurrentPage { get; set; }
     [Parameter]
     public List<GetAllBacklogItemsCommandModel> items { get; set; }
+    [Parameter]
+    public List<GetAllProcessesCommandModel> processes { get; set; }
     [Parameter]
     public string title { get; set; }
     [Parameter]
@@ -95,37 +161,18 @@
     public int currentPage { get; set; }
     [Parameter]
     public int totalPages { get; set; }
-
-    private bool paginationDivIsOverflow { get; set; }
-    private int lastPages { get; set; }
+    [Parameter]
+    public bool paginationDivOverflow { get; set; }
+    [Parameter]
+    public bool paginationButtonsSlideLeftState { get; set; }
+    [Parameter]
+    public bool paginationButtonsSlideRightState { get; set; }
+    [Parameter]
+    public int lastPages { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-
-        var lDotNetReference = DotNetObjectReference.Create(this);
-        await JSRuntime.InvokeVoidAsync("SetBacklogReference", lDotNetReference);
-        await HandlePaginationDivOverflow();
-    }
-
-    [JSInvokable("HandlePaginationDivOverflow")]
-    public async Task HandlePaginationDivOverflow()
-    {
-        var state = await JSRuntime.InvokeAsync<bool>("checkTablePaginationDivOverflow", paginationDivId);
-        await Task.Run(() =>
-        {
-            paginationDivIsOverflow = state;
-        });
-
-        if (paginationDivIsOverflow)
-        {
-            lastPages = 3;
-        }
-        else
-        {
-            lastPages = 0;
-        }
-        StateHasChanged();
     }
 
     private async Task PaginatePage(int pageIndex)
@@ -134,8 +181,8 @@
         {
             page = pageIndex;
         });
-        await PaginationButtonsChanged(page);
-        await HandleSetPaginationData();
+        await SetPaginationData();
+        StateHasChanged();
     }
 
     private async Task PaginateRight()
@@ -147,8 +194,8 @@
                 page = currentPage + 1;
             }
         });
-        await PaginationButtonsChanged(page);
-        await HandleSetPaginationData();
+        await SetPaginationData();
+        StateHasChanged();
     }
 
     private async Task PaginateLeft()
@@ -160,22 +207,23 @@
                 page = currentPage - 1;
             }
         });
-        await PaginationButtonsChanged(page);
-        await HandleSetPaginationData();
+        await SetPaginationData();
+        StateHasChanged();
     }
 
-    private async Task PaginationButtonsChanged(int pageIndex)
+    internal protected async Task SetPaginationData()
+    {
+        await SetPage.InvokeAsync(page);
+        await SetPageSize.InvokeAsync(pageSize);
+        await SetCurrentPage.InvokeAsync(currentPage);
+    }
+
+    private async Task CheckCheckbox(string idString, int idNumber)
     {
         await Task.Run(() =>
         {
-
+            var id = (idString + idNumber).ToString();
+            Console.WriteLine(id);
         });
-    }
-
-    public async Task HandleSetPaginationData ()
-    {
-        await InvokePage.InvokeAsync(page);
-        await InvokePageSize.InvokeAsync(pageSize);
-        await InvokeCurrentPage.InvokeAsync(currentPage);
     }
 }
