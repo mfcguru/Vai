@@ -105,7 +105,7 @@ else
                 @(pageIndex == 1 ? "" : "ml-1")
                 @(currentPage == pageIndex ? "page-btn-active" : "")
                 @(hiddenButtons >= pageIndex ? "hide-previous-page" : "")"
-                        @onclick="() => PaginatePage(pageIndex)">
+                        @onclick="() => PaginatePageHideButtons(pageIndex)">
                     @i
                 </button>
             }
@@ -118,7 +118,7 @@ else
                 var pageIndex = i;
                 <button class="btn page-btn
                     @(currentPage == i ? "page-btn-active" : "")"
-                        @onclick="() => PaginatePage(pageIndex)">
+                        @onclick="() => PaginatePageHideButtons(pageIndex)">
                     @i
                 </button>
             }
@@ -134,6 +134,8 @@ else
     public EventCallback<int> SetPageSize { get; set; }
     [Parameter]
     public EventCallback<int> SetCurrentPage { get; set; }
+    [Parameter]
+    public EventCallback CheckTableDivOverflow { get; set; }
     [Parameter]
     public List<GetAllBacklogItemsCommandModel> items { get; set; }
     [Parameter]
@@ -159,7 +161,7 @@ else
     [Parameter]
     public int lastPages { get; set; }
 
-    private int hiddenButtons { get; set; }
+    private int hiddenButtons { get; set; } = 0;
 
     protected override async Task OnInitializedAsync()
     {
@@ -170,7 +172,6 @@ else
     {
         if (page != pageIndex)
         {
-            await HideButtons();
             await Task.Run(() =>
             {
                 page = pageIndex;
@@ -188,7 +189,6 @@ else
             await Task.Run(() =>
             {
                 page = currentPage + 1;
-
             });
             await SetPaginationData();
             StateHasChanged();
@@ -235,17 +235,55 @@ else
                 hiddenButtons -= 1;
             }
         });
+        await CheckTableDivOverflow.InvokeAsync();
     }
 
     private async Task HideButtons()
     {
         await Task.Run(() =>
         {
-            if(paginationButtonsSlideLeftState)
+            if (paginationButtonsSlideLeftState)
             {
-                hiddenButtons = currentPage;
+                hiddenButtons = page;
+                StateHasChanged();
             }
         });
-        StateHasChanged();
+        await CheckTableDivOverflow.InvokeAsync();
+    }
+
+    private async Task PaginatePageHideButtons(int pageIndex)
+    {
+        if (currentPage < pageIndex)
+        {
+            for (var i = currentPage; i < pageIndex; i++)
+            {
+                var hiddenButtonIndex = i;
+                await Task.Run(() =>
+                {
+                    if (paginationButtonsSlideLeftState)
+                    {
+                        hiddenButtons = hiddenButtonIndex;
+                        StateHasChanged();
+                    }
+                });
+                await CheckTableDivOverflow.InvokeAsync();
+            }
+
+        }
+        else
+        {
+            for (var i = currentPage; i > pageIndex; i--)
+            {
+                await Task.Run(() =>
+                {
+                    if (paginationButtonsSlideLeftState)
+                    {
+                        hiddenButtons = pageIndex;
+                    }
+                });
+    
+            }
+        }
+        await PaginatePage(pageIndex);
     }
 }

@@ -1,12 +1,13 @@
 ﻿@inject IGetAllBacklogItemsCommand command
 @inject IJSRuntime JSRuntime
 
-@if(loading == true) 
+@if(loading == false) 
 {
     <Vai.Frontend.Application.ReusableComponents.Table 
         SetPage="SetPage" 
         SetPageSize="SetPageSize"
         SetCurrentPage="SetCurrentPage"
+        CheckTableDivOverflow="HandleButtonSlideLeft"
         items="backlogItems"
         title="@title"
         paginationDivId="@paginationDivId" 
@@ -33,7 +34,7 @@
     private bool paginationButtonsSlideLeftState { get; set; }
     private bool paginationButtonsSlideRightState { get; set; }
     private int lastPages { get; set; }
-    private bool loading { get; set; } = false;
+    private bool loading { get; set; } = true;
 
     protected override async Task OnInitializedAsync()
     {
@@ -43,7 +44,7 @@
         await JSRuntime.InvokeVoidAsync("SetBacklogReference", lDotNetReference);
 
         await GetAllBacklogItems();
-        if(loading == false)
+        if(loading == true)
         {
             await HandleButtonSlideLeft();
         }
@@ -92,7 +93,6 @@
             page = newPage;
             StateHasChanged();
         });
-        await HandleButtonSlideLeft();
         await HandleButtonSlideRight();
         await GetAllBacklogItems();
     }
@@ -123,8 +123,8 @@
         {
             backlogItems = result.Data;
             currentPage = result.CurrentPage;
-            totalPages = 12;
+            totalPages = result.TotalPages;
         });
-        loading = true;
+        loading = false;
     }
-    }
+}
