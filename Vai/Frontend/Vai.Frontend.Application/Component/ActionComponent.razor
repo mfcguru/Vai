@@ -4,7 +4,7 @@
 @if (loading == false)
 {
     <Vai.Frontend.Application.ReusableComponents.Table
-        Elements="processes"
+        List="processes"
         SetPage="SetPage"
         SetPageSize="SetPageSize"
         SetCurrentPage="SetCurrentPage"
@@ -58,6 +58,12 @@
             </table>
         </TableContent>
     </Vai.Frontend.Application.ReusableComponents.Table>
+}
+else
+{
+    <div class="width-max bg-white py-5 text-center row-border" style="border-radius: 5px;">
+        <h6>Loading...</h6>
+    </div>
 }
 
 @code {

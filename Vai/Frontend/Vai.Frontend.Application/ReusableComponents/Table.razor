@@ -1,6 +1,6 @@
 ﻿@inject IGetAllBacklogItemsCommand command
 @inject IJSRuntime JSRuntime
-@typeparam TElement
+@typeparam TList
 
 <div class="flex bg-white row-border-top">
     <div class="title">@title</div>
@@ -61,7 +61,7 @@
 
 @code {
     [Parameter]
-    public List<TElement> Elements { get; set; }
+    public List<TList> List { get; set; }
     [Parameter]
     public RenderFragment TableContent { get; set; }
     [Parameter]

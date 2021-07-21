@@ -3,23 +3,21 @@
 
 @if (loading == false)
 {
-    <Vai.Frontend.Application.ReusableComponents.Table
-        Elements="backlogItems"
-        SetPage="SetPage"
-        SetPageSize="SetPageSize"
-        SetCurrentPage="SetCurrentPage"
-        SetPaginationButtonSlideLeft="SetPaginationButtonSlideLeft"
-        CheckTableDivOverflow="HandleButtonSlideLeft"
-        title="@title"
-        paginationDivId="@paginationDivId"
-        page="page"
-        pageSize="pageSize"
-        currentPage="currentPage"
-        totalPages="totalPages"
-        paginationButtonsSlideLeftState="paginationButtonsSlideLeftState"
-        paginationButtonsSlideRightState="paginationButtonsSlideRightState"
-        lastPages="lastPages"
-    >
+    <Vai.Frontend.Application.ReusableComponents.Table List="backlogItems"
+                                                       SetPage="SetPage"
+                                                       SetPageSize="SetPageSize"
+                                                       SetCurrentPage="SetCurrentPage"
+                                                       SetPaginationButtonSlideLeft="SetPaginationButtonSlideLeft"
+                                                       CheckTableDivOverflow="HandleButtonSlideLeft"
+                                                       title="@title"
+                                                       paginationDivId="@paginationDivId"
+                                                       page="page"
+                                                       pageSize="pageSize"
+                                                       currentPage="currentPage"
+                                                       totalPages="totalPages"
+                                                       paginationButtonsSlideLeftState="paginationButtonsSlideLeftState"
+                                                       paginationButtonsSlideRightState="paginationButtonsSlideRightState"
+                                                       lastPages="lastPages">
         <TableContent>
             <table class="width-max">
                 <thead class="bg-white">
@@ -34,20 +32,25 @@
                     {
                         <tr>
                             <td style="display: flex">
-                            <input type="checkbox"
-                                    class="form-check mr-2"
-                                    style="margin-top: 5px;"
-                                    id="backlog-checkbox-@item.ProcessId"
-                            /> @item.Client
-                            </td>
-                            <td>@item.Robot</td>
-                            <td class="task-descr">@(item.TaskDescription.Length > 35 ? item.TaskDescription.Substring(0, 35) + "..." : item.TaskDescription)</td>
-                        </tr>
+                                <input type="checkbox"
+                                       class="form-check mr-2"
+                                       style="margin-top: 5px;"
+                                       id="backlog-checkbox-@item.ProcessId" /> @item.Client
+                                </td>
+                                <td>@item.Robot</td>
+                                <td class="task-descr">@(item.TaskDescription.Length > 35 ? item.TaskDescription.Substring(0, 35) + "..." : item.TaskDescription)</td>
+                            </tr>
                         }
                 </tbody>
             </table>
         </TableContent>
     </Vai.Frontend.Application.ReusableComponents.Table>
+}
+else
+{
+    <div class="width-max bg-white py-5 text-center row-border" style="border-radius: 5px;">
+        <h6>Loading...</h6>
+    </div>
 }
 
 @code {
