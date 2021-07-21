@@ -3,23 +3,61 @@
 
 @if (loading == false)
 {
-    <Vai.Frontend.Application.ReusableComponents.Table 
+    <Vai.Frontend.Application.ReusableComponents.Table
+        Elements="processes"
         SetPage="SetPage"
         SetPageSize="SetPageSize"
         SetCurrentPage="SetCurrentPage"
+        SetPaginationButtonSlideLeft="SetPaginationButtonSlideLeft"
         CheckTableDivOverflow="HandleButtonSlideLeft"
-        processes="processes"
         title="@title"
         paginationDivId="@paginationDivId"
         page="page"
         pageSize="pageSize"
         currentPage="currentPage"
         totalPages="totalPages"
-        paginationDivOverflow="paginationDivOverflow"
         paginationButtonsSlideLeftState="paginationButtonsSlideLeftState"
         paginationButtonsSlideRightState="paginationButtonsSlideRightState"
         lastPages="lastPages"
-    />
+    >
+        <TableContent>
+            <table class="width-max">
+                <thead class="bg-white">
+                    <tr>
+                        <th scope="col" style="display: flex"><input type="checkbox" class="form-check mr-2" style="margin-top: 5px;" /> Client</th>
+                        <th scope="col">Robot</th>
+                        <th scope="col">Task Description</th>
+                        <th scope="col">Start Time</th>
+                        <th scope="col">Elapsed Duration</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Efficiency</th>
+                        <th scope="col">Priority</th>
+                    </tr>
+                </thead>
+                <tbody class="tbody">
+                    @foreach (var process in processes)
+                    {
+                        <tr>
+                            <td style="display: flex">
+                                <input type="checkbox"
+                                       class="form-check mr-2"
+                                       style="margin-top: 5px;"
+                                       id="action-checkbox-@process.ProcessId"
+                                 /> @process.Client
+                            </td>
+                            <td>@process.Robot</td>
+                            <td class="task-descr">@(process.TaskDescription.Length > 25 ? process.TaskDescription.Substring(0, 25) + "..." : process.TaskDescription)</td>
+                            <td>@process.StartTime</td>
+                            <td>@process.ElapsedTime</td>
+                            <td><span class="status">@(process.Status.Length > 10 ? process.Status.Substring(0, 10) + "..." : process.Status)</span></td>
+                            <td><span class="efficiency">@(process.Efficiency.Length > 10 ? process.Efficiency.Substring(0, 10) + "..." : process.Efficiency)</span></td>
+                            <td><span class="priority">@(process.Priority.Length > 10 ? process.Priority.Substring(0, 10) + "..." : process.Priority)</span></td>
+                        </tr>
+                        }
+                </tbody>
+            </table>
+        </TableContent>
+    </Vai.Frontend.Application.ReusableComponents.Table>
 }
 
 @code {
@@ -30,7 +68,6 @@
     private int pageSize { get; set; } = 5;
     private int currentPage { get; set; }
     private int totalPages { get; set; }
-    private bool paginationDivOverflow { get; set; }
     private bool paginationButtonsSlideLeftState { get; set; }
     private bool paginationButtonsSlideRightState { get; set; }
     private int lastPages { get; set; }
@@ -44,7 +81,8 @@
         await JSRuntime.InvokeVoidAsync("SetActionReference", lDotNetReference);
 
         await GetAllProcesses();
-        if (loading == true)
+        var task = Task.Run(() => HandleButtonSlideLeft());
+        if (loading == false && task.Wait(TimeSpan.FromSeconds(1)))
         {
             await HandleButtonSlideLeft();
         }
@@ -84,6 +122,15 @@
             }
         });
         StateHasChanged();
+    }
+
+    private async void SetPaginationButtonSlideLeft()
+    {
+        await Task.Run(() =>
+        {
+            paginationButtonsSlideLeftState = false;
+            lastPages = 0;
+        });
     }
 
     private async Task SetPage(int pageValue)
