@@ -7,8 +7,8 @@ namespace Vai.Frontend.Core.Services
 {
     public interface IApiService
     {
-        Task<CommandResult<List<GetAllProcessesCommandModel>>> GetAllProcesses(int page, int pageSize);
+        Task<CommandResult<GetAllProcessesCommandModel>> GetAllProcesses(int page, int pageSize);
 
-        Task<CommandResult<List<GetAllBacklogItemsCommandModel>>> GetAllBacklogItems(int page, int pageSize);
+        Task<CommandResult<GetAllBacklogItemsCommandModel>> GetAllBacklogItems(int page, int pageSize);
     }
 }

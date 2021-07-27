@@ -50,7 +50,7 @@
                 var pageIndex = i;
                 <button class="btn page-btn
                     @(currentPage == i ? "page-btn-active" : "")"
-                        @onclick="() => PaginatePageHideButtons(pageIndex)">
+                        @onclick="() => ClickedLastPages(pageIndex)">
                     @i
                 </button>
             }
@@ -225,16 +225,22 @@
 
     private async Task ClickedLastPages(int pageIndex)
     {
-        await SetPaginationButtonSlideLeft.InvokeAsync();
-        hiddenButtons = pageIndex;
-        for(var i = pageIndex; i > 1; i--)
+        paginationButtonsSlideLeftState = false;
+        await Task.Run(() => hiddenButtons = pageIndex);
+        StateHasChanged();
+        for (var i = pageIndex - 1; i > 1; i--)
         {
+            hiddenButtons -= 1;
             if(paginationButtonsSlideLeftState == false)
             {
-                hiddenButtons = i;
                 await CheckTableDivOverflow.InvokeAsync();
             }
+            else
+            {
+                currentPage = hiddenButtons + 1;
+                break;
+            }
         }
-        await PaginatePage(pageIndex);
+        await PaginatePageHideButtons(pageIndex);
     }
 }

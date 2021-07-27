@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -8,7 +7,6 @@ using Vai.Shared.Interfaces.Process;
 using Vai.Shared.Models;
 using Vai.Shared.Params;
 using Vai.Shared.Results;
-using Vai.Backend.Core.Helpers;
 
 namespace Vai.Backend.Core.UseCases.Process
 {
@@ -20,13 +18,13 @@ namespace Vai.Backend.Core.UseCases.Process
         {
             this.context = context;
         }
-        public async Task<CommandResult<List<GetAllProcessesCommandModel>>> Execute(GetAllProcessesCommandParams parameters)
+        public async Task<CommandResult<GetAllProcessesCommandModel>> Execute(GetAllProcessesCommandParams parameters)
         {
             var count = await context.Processes.CountAsync();
             var items = await context.Processes
                 .Skip((parameters.Page - 1) * parameters.PageSize)
                 .Take(parameters.PageSize)
-                .Select(o => new GetAllProcessesCommandModel
+                .Select(o => new GetAllProcessesCommandModel.ProcessAttribute
                 {
                     ProcessId = o.ProcessId,
                     Client = o.Client,
@@ -39,13 +37,17 @@ namespace Vai.Backend.Core.UseCases.Process
                     Priority = o.Priority,
                 }).ToListAsync();
 
-            var result = new PaginationHelper<GetAllProcessesCommandModel>(items, count, parameters.Page, parameters.PageSize);
+            var result = new GetAllProcessesCommandModel
+            {
+                Processes = items,
+                Count = count,
+                CurrentPage = parameters.Page,
+                TotalPages = (int)Math.Ceiling(count / (double)parameters.PageSize)
+            };
 
-            return new CommandResult<List<GetAllProcessesCommandModel>> 
-            { 
-                Data = result, 
-                CurrentPage = result.PageIndex, 
-                TotalPages = result.TotalPages 
+            return new CommandResult<GetAllProcessesCommandModel>
+            {
+                Data = result
             };
         }
     }

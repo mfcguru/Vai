@@ -23,24 +23,24 @@ namespace Vai.Frontend.Infrastructure.Services
             this.client = client;
         }
 
-        public async Task<CommandResult<List<GetAllProcessesCommandModel>>> GetAllProcesses(int page, int pageSize)
+        public async Task<CommandResult<GetAllProcessesCommandModel>> GetAllProcesses(int page, int pageSize)
         {
             var url = client.BaseAddress + "api/process/getAllProcesses?page=" + page.ToString() + "&pageSize=" + pageSize.ToString();
 
             var json = await client.GetStringAsync(url);
 
-            var result = JsonConvert.DeserializeObject<CommandResult<List<GetAllProcessesCommandModel>>>(json);
+            var result = JsonConvert.DeserializeObject<CommandResult<GetAllProcessesCommandModel>>(json);
 
             return result;
         }
 
-        public async Task<CommandResult<List<GetAllBacklogItemsCommandModel>>> GetAllBacklogItems(int page, int pageSize)
+        public async Task<CommandResult<GetAllBacklogItemsCommandModel>> GetAllBacklogItems(int page, int pageSize)
         {
             var url = client.BaseAddress + "api/process/getAllBacklogItems?page=" + page.ToString() + "&pageSize=" + pageSize.ToString();
 
             var json = await client.GetStringAsync(url);
 
-            var result = JsonConvert.DeserializeObject<CommandResult<List<GetAllBacklogItemsCommandModel>>>(json);
+            var result = JsonConvert.DeserializeObject<CommandResult<GetAllBacklogItemsCommandModel>>(json);
 
             return result;
         }

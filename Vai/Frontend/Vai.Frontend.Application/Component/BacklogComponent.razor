@@ -3,42 +3,47 @@
 
 @if (loading == false)
 {
-    <Vai.Frontend.Application.ReusableComponents.Table List="backlogItems"
-                                                       SetPage="SetPage"
-                                                       SetPageSize="SetPageSize"
-                                                       SetCurrentPage="SetCurrentPage"
-                                                       SetPaginationButtonSlideLeft="SetPaginationButtonSlideLeft"
-                                                       CheckTableDivOverflow="HandleButtonSlideLeft"
-                                                       title="@title"
-                                                       paginationDivId="@paginationDivId"
-                                                       page="page"
-                                                       pageSize="pageSize"
-                                                       currentPage="currentPage"
-                                                       totalPages="totalPages"
-                                                       paginationButtonsSlideLeftState="paginationButtonsSlideLeftState"
-                                                       paginationButtonsSlideRightState="paginationButtonsSlideRightState"
-                                                       lastPages="lastPages">
+    <Vai.Frontend.Application.ReusableComponents.Table 
+        List="backlogItems"
+        SetPage="SetPage"
+        SetPageSize="SetPageSize"
+        SetCurrentPage="SetCurrentPage"
+        SetPaginationButtonSlideLeft="SetPaginationButtonSlideLeft"
+        CheckTableDivOverflow="HandleButtonSlideLeft"
+        title="@title"
+        paginationDivId="@paginationDivId"
+        page="page"
+        pageSize="pageSize"
+        currentPage="currentPage"
+        totalPages="totalPages"
+        paginationButtonsSlideLeftState="paginationButtonsSlideLeftState"
+        paginationButtonsSlideRightState="paginationButtonsSlideRightState"
+        lastPages="lastPages">
         <TableContent>
             <table class="width-max">
                 <thead class="bg-white">
                     <tr>
-                        <th scope="col" style="display: flex"><input type="checkbox" class="form-check mr-2" style="margin-top: 5px;" /> Client</th>
+                        <th scope="col" style="display: flex">
+                            <input type="checkbox" class="form-check mr-2" style="margin-top: 5px;" @onclick="checkAllBoxes" /> Client
+                        </th>
                         <th scope="col">Robot</th>
                         <th scope="col">Task Description</th>
                     </tr>
                 </thead>
                 <tbody class="tbody">
-                    @foreach (var item in backlogItems)
+                    @foreach (var backlogItem in backlogItems)
                     {
                         <tr>
                             <td style="display: flex">
                                 <input type="checkbox"
                                        class="form-check mr-2"
-                                       style="margin-top: 5px;"
-                                       id="backlog-checkbox-@item.ProcessId" /> @item.Client
-                                </td>
-                                <td>@item.Robot</td>
-                                <td class="task-descr">@(item.TaskDescription.Length > 35 ? item.TaskDescription.Substring(0, 35) + "..." : item.TaskDescription)</td>
+                                       style="margin-top: 5px;" 
+                                       checked="@backlogCheckboxes[backlogItem.ProcessId - 1]"
+                                       @bind-value="backlogCheckboxes[backlogItem.ProcessId - 1]"
+                                /> @backlogItem.Client
+                            </td>
+                            <td>@backlogItem.Robot</td>
+                            <td class="task-descr">@(backlogItem.TaskDescription.Length > 35 ? backlogItem.TaskDescription.Substring(0, 35) + "..." : backlogItem.TaskDescription)</td>
                             </tr>
                         }
                 </tbody>
@@ -48,13 +53,13 @@
 }
 else
 {
-    <div class="width-max bg-white py-5 text-center row-border" style="border-radius: 5px;">
+    <div class="width-max bg-white py-5 text-center row-border" style="border-radius: 5px;color: #d0d0d0;">
         <h6>Loading...</h6>
     </div>
 }
 
 @code {
-    private List<GetAllBacklogItemsCommandModel> backlogItems = new List<GetAllBacklogItemsCommandModel>();
+    private List<GetAllBacklogItemsCommandModel.BacklogAttribute> backlogItems = new List<GetAllBacklogItemsCommandModel.BacklogAttribute>();
     private string title { get; set; } = "BACKLOGS";
     private string paginationDivId { get; set; } = "backlogPaginationDiv";
     private int page { get; set; } = 1;
@@ -65,6 +70,8 @@ else
     private bool paginationButtonsSlideRightState { get; set; }
     private int lastPages { get; set; }
     private bool loading { get; set; } = true;
+    private int backlogsCount;
+    private bool[] backlogCheckboxes;
 
     protected override async Task OnInitializedAsync()
     {
@@ -74,6 +81,7 @@ else
         await JSRuntime.InvokeVoidAsync("SetBacklogReference", lDotNetReference);
 
         await GetAllBacklogItems();
+        await Task.Run(() => backlogCheckboxes = new bool[backlogsCount]);
         var task = Task.Run(() => HandleButtonSlideLeft());
         if (loading == false && task.Wait(TimeSpan.FromSeconds(1)))
         {
@@ -161,10 +169,22 @@ else
         var result = await command.Execute(new GetAllBacklogItemsCommandParams { Page = page, PageSize = pageSize });
         await Task.Run(() =>
         {
-            backlogItems = result.Data;
-            currentPage = result.CurrentPage;
-            totalPages = result.TotalPages;
+            backlogItems = result.Data.Backlogs;
+            currentPage = result.Data.CurrentPage;
+            totalPages = result.Data.TotalPages;
+            backlogsCount = result.Data.Count;
         });
         loading = false;
+    }
+
+    private async Task checkAllBoxes()
+    {
+        await Task.Run(() =>
+        {
+            for (var i = 0; i < backlogsCount; i++)
+            {
+                backlogCheckboxes[i] = !backlogCheckboxes[i];
+            }
+        });
     }
 }

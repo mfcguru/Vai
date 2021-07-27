@@ -3,7 +3,7 @@ using Vai.Shared.Params;
 
 namespace Vai.Shared.Interfaces.Process
 {
-    public interface IGetAllBacklogItemsCommand : ICommandList<GetAllBacklogItemsCommandModel, GetAllBacklogItemsCommandParams>
+    public interface IGetAllBacklogItemsCommand : ICommand<GetAllBacklogItemsCommandParams, GetAllBacklogItemsCommandModel>
     {
     }
 }

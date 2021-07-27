@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Vai.Frontend.Core.Services;
+using Vai.Shared.Interfaces;
 using Vai.Shared.Interfaces.Process;
 using Vai.Shared.Models;
 using Vai.Shared.Params;
@@ -21,7 +22,7 @@ namespace Vai.Frontend.Core.Usecases.Process
             this.apiService = apiService;
         }
 
-        public async Task<CommandResult<List<GetAllProcessesCommandModel>>> Execute(GetAllProcessesCommandParams parameters)
+        public async Task<CommandResult<GetAllProcessesCommandModel>> Execute(GetAllProcessesCommandParams parameters)
         {
             return await apiService.GetAllProcesses(parameters.Page, parameters.PageSize);
         }

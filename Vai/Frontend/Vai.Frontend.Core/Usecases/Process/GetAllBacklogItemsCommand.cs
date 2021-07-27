@@ -19,7 +19,7 @@ namespace Vai.Frontend.Core.Usecases.Process
         {
             this.apiService = apiService;
         }
-        public Task<CommandResult<List<GetAllBacklogItemsCommandModel>>> Execute(GetAllBacklogItemsCommandParams parameters)
+        public Task<CommandResult<GetAllBacklogItemsCommandModel>> Execute(GetAllBacklogItemsCommandParams parameters)
         {
             return apiService.GetAllBacklogItems(parameters.Page, parameters.PageSize);
         }
