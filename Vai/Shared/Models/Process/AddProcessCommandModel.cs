@@ -1,24 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Vai.Shared.Params
+namespace Vai.Shared.Models.Process
 {
-    public class AddProcessCommandParams
+    public class AddProcessCommandModel
     {
-        [Required]
         public string Client { get; set; }
-        [Required]
         public string Robot { get; set; }
-        [Required]
         public string TaskDescription { get; set; }
-        [Required]
         public string StartTime { get; set; }
-        [Required]
         public string ElapsedTime { get; set; }
-        [Required]
         public string Status { get; set; }
-        [Required]
         public string Efficiency { get; set; }
-        [Required]
         public string Priority { get; set; }
     }
 }

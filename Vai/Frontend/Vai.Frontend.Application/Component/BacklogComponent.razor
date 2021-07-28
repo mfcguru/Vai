@@ -16,9 +16,12 @@
         pageSize="pageSize"
         currentPage="currentPage"
         totalPages="totalPages"
+        itemsCount="backlogsCount"
         paginationButtonsSlideLeftState="paginationButtonsSlideLeftState"
         paginationButtonsSlideRightState="paginationButtonsSlideRightState"
-        lastPages="lastPages">
+        lastPages="lastPages"
+        selectedId="selectedId"
+    >
         <TableContent>
             <table class="width-max">
                 <thead class="bg-white">
@@ -39,7 +42,7 @@
                                        class="form-check mr-2"
                                        style="margin-top: 5px;" 
                                        checked="@backlogCheckboxes[backlogItem.ProcessId - 1]"
-                                       @bind-value="backlogCheckboxes[backlogItem.ProcessId - 1]"
+                                       @onclick="() => selectProcess(backlogItem.ProcessId)"
                                 /> @backlogItem.Client
                             </td>
                             <td>@backlogItem.Robot</td>
@@ -72,6 +75,7 @@ else
     private bool loading { get; set; } = true;
     private int backlogsCount;
     private bool[] backlogCheckboxes;
+    private int selectedId { get; set; } = 0;
 
     protected override async Task OnInitializedAsync()
     {
@@ -186,5 +190,11 @@ else
                 backlogCheckboxes[i] = !backlogCheckboxes[i];
             }
         });
+    }
+
+    private void selectProcess(int selectedProcessId)
+    {
+        backlogCheckboxes[selectedId - 1] = !backlogCheckboxes[selectedId - 1];
+        selectedId = selectedProcessId;
     }
 }

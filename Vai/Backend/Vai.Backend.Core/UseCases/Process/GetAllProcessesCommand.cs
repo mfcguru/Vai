@@ -31,7 +31,10 @@ namespace Vai.Backend.Core.UseCases.Process
                     Robot = o.Robot,
                     TaskDescription = o.Description,
                     StartTime = o.StartTime.ToLongDateString(),
-                    ElapsedTime = (DateTime.Now - o.StartTime).ToString(),
+                    ElapsedTime =
+                        (DateTime.Now.Day - o.StartTime.Day).ToString() + " Days - " +
+                        (DateTime.Now.Hour - o.StartTime.Hour).ToString() + " Hours - " +
+                        (DateTime.Now.Minute - o.StartTime.Minute).ToString() + " Mins",
                     Status = o.Status,
                     Efficiency = o.Efficiency,
                     Priority = o.Priority,

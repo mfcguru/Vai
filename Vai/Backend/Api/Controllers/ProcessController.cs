@@ -43,7 +43,7 @@ namespace Vai.Backend.Api.Controllers
         }
 
         [HttpPut("editProcess")]
-        public async Task<IActionResult> EditProcess([FromServices]IEditProcessCommand command, [FromBody]EditProcessCommandParameters parameters)
+        public async Task<IActionResult> EditProcess([FromServices]IEditProcessCommand command, [FromBody]EditProcessCommandParams parameters)
         {
             var result = await command.Execute(parameters);
 

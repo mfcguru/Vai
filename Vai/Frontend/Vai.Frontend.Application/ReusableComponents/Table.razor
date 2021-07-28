@@ -5,7 +5,7 @@
 <div class="flex bg-white row-border-top">
     <div class="title">@title</div>
     <div class="display-text">
-        <span style="margin-top: 10px !important">Displaying @pageSize of a total 236 processes</span>
+        <span style="margin-top: 10px !important">Displaying @pageSize of a total @itemsCount processes</span>
     </div>
     @if (title == "ACTIONS")
     {
@@ -17,7 +17,7 @@
         Sort by:
         <span class="sort-by-text">Relevance</span>
     </div>
-    <div class="option">...</div>
+    <div class="option" @onclick="ShowModal" style="cursor: pointer;"><span class="mb-3">...</span></div>
 </div>
 <div class="row-border overflow-auto width-max">
     @TableContent
@@ -59,6 +59,14 @@
     </div>
 </div>
 
+<Modal @ref="editProcessModalRef">
+    <ModalContent Centered="true">
+        <ModalBody>
+            <Vai.Frontend.Application.Component.EditActionComponent @ref="editForm" HideModal="HideModal" selectedId="selectedId" />
+        </ModalBody>
+    </ModalContent>
+</Modal>
+
 @code {
     [Parameter]
     public List<TList> List { get; set; }
@@ -91,17 +99,34 @@
     [Parameter]
     public int totalPages { get; set; }
     [Parameter]
+    public int itemsCount { get; set; }
+    [Parameter]
     public bool paginationButtonsSlideLeftState { get; set; }
     [Parameter]
     public bool paginationButtonsSlideRightState { get; set; }
     [Parameter]
     public int lastPages { get; set; }
+    [Parameter]
+    public int selectedId { get; set; }
 
     private int hiddenButtons { get; set; } = 0;
+    private Modal editProcessModalRef;
+    private Vai.Frontend.Application.Component.EditActionComponent editForm;
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+    }
+
+    private async Task ShowModal()
+    {
+        editProcessModalRef.Show();
+        await editForm.GetProcess();
+    }
+
+    private void HideModal()
+    {
+        editProcessModalRef.Hide();
     }
 
     private async Task PaginatePage(int pageIndex)
@@ -158,7 +183,6 @@
         await Task.Run(() =>
         {
             var id = (idString + idNumber).ToString();
-            Console.WriteLine(id);
         });
     }
 

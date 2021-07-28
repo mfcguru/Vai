@@ -16,9 +16,11 @@
         pageSize="pageSize"
         currentPage="currentPage"
         totalPages="totalPages"
+        itemsCount="processesCount"
         paginationButtonsSlideLeftState="paginationButtonsSlideLeftState"
         paginationButtonsSlideRightState="paginationButtonsSlideRightState"
         lastPages="lastPages"
+        selectedId="selectedId"
     >
         <TableContent>
             <table class="width-max">
@@ -45,7 +47,7 @@
                                        class="form-check mr-2"
                                        style="margin-top: 5px;"
                                        checked="@processCheckboxes[process.ProcessId - 1]"
-                                       @bind-value="processCheckboxes[process.ProcessId - 1]"
+                                       @onclick="() => selectProcess(process.ProcessId)"
                                  /> @process.Client
                             </td>
                             <td>@process.Robot</td>
@@ -83,6 +85,7 @@ else
     private bool loading { get; set; } = true;
     private int processesCount;
     private bool[] processCheckboxes;
+    private int selectedId { get; set; } = 0;
 
     protected override async Task OnInitializedAsync()
     {
@@ -143,7 +146,6 @@ else
             paginationButtonsSlideLeftState = false;
             lastPages = 0;
         });
-        Console.WriteLine(paginationButtonsSlideLeftState);
         StateHasChanged();
     }
 
@@ -200,5 +202,11 @@ else
                 processCheckboxes[i] = !processCheckboxes[i];
             }
         });
+    }
+
+    private void selectProcess(int selectedProcessId)
+    {
+        processCheckboxes[selectedId - 1] = !processCheckboxes[selectedId - 1];
+        selectedId = selectedProcessId;
     }
 }

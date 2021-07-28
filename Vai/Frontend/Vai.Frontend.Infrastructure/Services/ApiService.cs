@@ -3,11 +3,14 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Vai.Frontend.Core.Services;
 using Vai.Frontend.Core.Usecases.Process;
 using Vai.Frontend.Infrastructure.Configuration;
 using Vai.Shared.Models;
+using Vai.Shared.Models.Process;
+using Vai.Shared.Params;
 using Vai.Shared.Results;
 
 namespace Vai.Frontend.Infrastructure.Services
@@ -43,6 +46,36 @@ namespace Vai.Frontend.Infrastructure.Services
             var result = JsonConvert.DeserializeObject<CommandResult<GetAllBacklogItemsCommandModel>>(json);
 
             return result;
+        }
+
+        public async Task<CommandResult<GetProcessCommandModel>> GetProcess(int processId)
+        {
+            var url = "api/process/getProcess?id=" + processId.ToString();
+
+            var json = await client.GetStringAsync(url);
+
+            var result = JsonConvert.DeserializeObject<CommandResult<GetProcessCommandModel>>(json);
+
+            return result;
+        }
+
+        public async Task<CommandResult> EditProcess(int processId, string processClient, string robot, string taskDescription, string efficiency, string status, string priority)
+        {
+            var url = "api/process/editProcess/" + processId;
+
+            var process = new EditProcessCommandModel
+            {
+                Client = processClient,
+                Robot = robot,
+                TaskDescription = taskDescription,
+                Efficiency = efficiency,
+                Status = status,
+                Priority = priority
+            };
+
+            await client.PutAsJsonAsync(url, process);
+
+            return new CommandResult {};
         }
     }
 }

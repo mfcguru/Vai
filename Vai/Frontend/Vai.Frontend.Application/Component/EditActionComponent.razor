@@ -1,0 +1,42 @@
+﻿@inject IGetProcessCommand command
+
+<h3>EditActionComponent</h3>
+
+<TextEdit @bind-Text="process.Client" />
+<TextEdit @bind-Text="process.Robot" />
+<TextEdit @bind-Text="process.TaskDescription" />
+<TextEdit @bind-Text="process.Efficiency" />
+<TextEdit @bind-Text="process.Status" />
+<TextEdit @bind-Text="process.Priority" />
+
+<Button Color="Color.Secondary" Clicked="@CloseModal">Cancel</Button>
+<Button Color="Color.Primary" Clicked="@CloseModal">Save Changes</Button>
+
+
+@code {
+    [Parameter]
+    public EventCallback HideModal { get; set; }
+    [Parameter]
+    public int selectedId { get; set; }
+
+    private GetProcessCommandModel process = new GetProcessCommandModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+
+    public async Task GetProcess()
+    {
+        var result = await command.Execute(selectedId);
+        await Task.Run(() =>
+        {
+            process = result.Data;
+        });
+    }
+
+    private async Task CloseModal()
+    {
+        await HideModal.InvokeAsync();
+    }
+}

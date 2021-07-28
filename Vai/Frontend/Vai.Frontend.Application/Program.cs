@@ -12,18 +12,30 @@ namespace Vai.Frontend.Application
     using Vai.Frontend.Infrastructure.Configuration;
     using Vai.Frontend.Infrastructure.Services;
     using Vai.Shared.Interfaces.Process;
+    using Blazorise;
+    using Blazorise.Bootstrap;
+    using Blazorise.Icons.FontAwesome;
 
     public class Program
     {
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
+            builder.Services
+             .AddBlazorise(options =>
+             {
+                 options.ChangeTextOnKeyPress = true;
+             })
+             .AddBootstrapProviders()
+             .AddFontAwesomeIcons();
+
             builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddTransient<IApiService, ApiService>();
             builder.Services.AddTransient<IGetAllProcessesCommand, GetAllProcessesCommand>();
             builder.Services.AddTransient<IGetAllBacklogItemsCommand, GetAllBacklogItemsCommand>();
+            builder.Services.AddTransient<IGetProcessCommand, GetProcessCommand>();
 
             await ConfigureSettings(builder);
             await builder.Build().RunAsync();
