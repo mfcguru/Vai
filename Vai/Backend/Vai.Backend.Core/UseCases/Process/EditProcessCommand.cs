@@ -27,6 +27,8 @@ namespace Vai.Backend.Core.UseCases.Process
             result.Status = parameters.Status;
             result.Priority = parameters.Priority;
 
+            await context.SaveChangesAsync();
+
             return new CommandResult();
         }
     }

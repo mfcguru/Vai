@@ -59,21 +59,11 @@ namespace Vai.Frontend.Infrastructure.Services
             return result;
         }
 
-        public async Task<CommandResult> EditProcess(int processId, string processClient, string robot, string taskDescription, string efficiency, string status, string priority)
+        public async Task<CommandResult> EditProcess(EditProcessCommandParams parameters)
         {
-            var url = "api/process/editProcess/" + processId;
+            var url = "api/process/editProcess/";
 
-            var process = new EditProcessCommandModel
-            {
-                Client = processClient,
-                Robot = robot,
-                TaskDescription = taskDescription,
-                Efficiency = efficiency,
-                Status = status,
-                Priority = priority
-            };
-
-            await client.PutAsJsonAsync(url, process);
+            await client.PutAsJsonAsync(url, parameters);
 
             return new CommandResult {};
         }

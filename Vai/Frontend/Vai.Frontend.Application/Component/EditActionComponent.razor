@@ -1,4 +1,5 @@
-﻿@inject IGetProcessCommand command
+﻿@inject IGetProcessCommand getProcess
+@inject IEditProcessCommand editProcess
 
 <h3>EditActionComponent</h3>
 
@@ -10,12 +11,14 @@
 <TextEdit @bind-Text="process.Priority" />
 
 <Button Color="Color.Secondary" Clicked="@CloseModal">Cancel</Button>
-<Button Color="Color.Primary" Clicked="@CloseModal">Save Changes</Button>
+<Button Color="Color.Primary" Clicked="@SaveChanges">Save Changes</Button>
 
 
 @code {
     [Parameter]
     public EventCallback HideModal { get; set; }
+    [Parameter]
+    public EventCallback GetAllProcesses { get; set; }
     [Parameter]
     public int selectedId { get; set; }
 
@@ -28,7 +31,7 @@
 
     public async Task GetProcess()
     {
-        var result = await command.Execute(selectedId);
+        var result = await getProcess.Execute(selectedId);
         await Task.Run(() =>
         {
             process = result.Data;
@@ -38,5 +41,27 @@
     private async Task CloseModal()
     {
         await HideModal.InvokeAsync();
+    }
+
+    private async Task SaveChanges()
+    {
+        var model = new EditProcessCommandParams
+        {
+            ProcessId = selectedId,
+            Client = process.Client,
+            Robot = process.Robot,
+            TaskDescription = process.TaskDescription,
+            StartTime = process.StartTime,
+            ElapsedTime = process.ElapsedTime,
+            Efficiency = process.Efficiency,
+            Status = process.Status,
+            Priority = process.Priority
+        };
+
+        await editProcess.Execute(model);
+
+        await CloseModal();
+
+        await GetAllProcesses.InvokeAsync();
     }
 }

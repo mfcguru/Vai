@@ -62,7 +62,7 @@
 <Modal @ref="editProcessModalRef">
     <ModalContent Centered="true">
         <ModalBody>
-            <Vai.Frontend.Application.Component.EditActionComponent @ref="editForm" HideModal="HideModal" selectedId="selectedId" />
+            <Vai.Frontend.Application.Component.EditActionComponent @ref="editForm" HideModal="HideModal" GetAllProcesses="GetAllProcesses" selectedId="selectedId" />
         </ModalBody>
     </ModalContent>
 </Modal>
@@ -72,6 +72,8 @@
     public List<TList> List { get; set; }
     [Parameter]
     public RenderFragment TableContent { get; set; }
+    [Parameter]
+    public EventCallback GetAllProcesses { get; set; }
     [Parameter]
     public EventCallback<int> SetPage { get; set; }
     [Parameter]

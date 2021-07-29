@@ -10,7 +10,7 @@ using Vai.Shared.Results;
 
 namespace Vai.Frontend.Core.Usecases.Process
 {
-    class EditProcessCommand : IEditProcessCommand
+    public class EditProcessCommand : IEditProcessCommand
     {
         private readonly IApiService apiService;
 
@@ -21,7 +21,7 @@ namespace Vai.Frontend.Core.Usecases.Process
 
         public Task<CommandResult> Execute(EditProcessCommandParams parameters)
         {
-            return apiService.EditProcess(parameters.ProcessId, parameters.Client, parameters.Robot, parameters.TaskDescription, parameters.Efficiency, parameters.Status, parameters.Priority);
+            return apiService.EditProcess(parameters);
         }
     }
 }
