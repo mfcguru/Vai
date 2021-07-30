@@ -37,6 +37,7 @@ namespace Vai.Frontend.Application
             builder.Services.AddTransient<IGetAllBacklogItemsCommand, GetAllBacklogItemsCommand>();
             builder.Services.AddTransient<IGetProcessCommand, GetProcessCommand>();
             builder.Services.AddTransient<IEditProcessCommand, EditProcessCommand>();
+            builder.Services.AddTransient<IAddProcessCommand, AddProcessCommand>();
 
             await ConfigureSettings(builder);
             await builder.Build().RunAsync();

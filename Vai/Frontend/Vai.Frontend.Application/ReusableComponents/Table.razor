@@ -10,14 +10,14 @@
     @if (title == "ACTIONS")
     {
         <div class="button-option">
-            <button class="button icon float-right">Actions</button>
+            <button class="button icon float-right" @onclick="showAddProcessModal">Actions</button>
         </div>
     }
     <div class="sort-by icon">
         Sort by:
         <span class="sort-by-text">Relevance</span>
     </div>
-    <div class="option" @onclick="ShowModal" style="cursor: pointer;"><span class="mb-3">...</span></div>
+    <div class="option" @onclick="showEditActionModal" style="cursor: pointer;"><span class="mb-3">...</span></div>
 </div>
 <div class="row-border overflow-auto width-max">
     @TableContent
@@ -58,6 +58,14 @@
         <button class="btn ml-1 page-btn" @onclick="PaginateRight">></button>
     </div>
 </div>
+
+<Modal @ref="addProcessModalRef">
+    <ModalContent Centered="true">
+        <ModalBody>
+            <Vai.Frontend.Application.Component.AddActionComponent HideModal="HideModal" GetAllProcesses="GetAllProcesses" />
+        </ModalBody>
+    </ModalContent>
+</Modal>
 
 <Modal @ref="editProcessModalRef">
     <ModalContent Centered="true">
@@ -113,6 +121,7 @@
 
     private int hiddenButtons { get; set; } = 0;
     private Modal editProcessModalRef;
+    private Modal addProcessModalRef;
     private Vai.Frontend.Application.Component.EditActionComponent editForm;
 
     protected override async Task OnInitializedAsync()
@@ -120,15 +129,21 @@
         await base.OnInitializedAsync();
     }
 
-    private async Task ShowModal()
+    private async Task showEditActionModal()
     {
         editProcessModalRef.Show();
         await editForm.GetProcess();
     }
 
+    private void showAddProcessModal()
+    {
+        addProcessModalRef.Show();
+    }
+
     private void HideModal()
     {
         editProcessModalRef.Hide();
+        addProcessModalRef.Hide();
     }
 
     private async Task PaginatePage(int pageIndex)

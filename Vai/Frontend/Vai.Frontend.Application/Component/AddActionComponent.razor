@@ -1,5 +1,42 @@
-﻿<h3>AddActionComponent</h3>
+﻿@inject IAddProcessCommand command
+
+<h3>AddActionComponent</h3>
+
+<TextEdit @bind-Text="process.Client" />
+<TextEdit @bind-Text="process.Robot" />
+<TextEdit @bind-Text="process.TaskDescription" />
+<TextEdit @bind-Text="process.Efficiency" />
+<TextEdit @bind-Text="process.Status" />
+<TextEdit @bind-Text="process.Priority" />
+
+<Button Color="Color.Secondary" Clicked="@CloseModal">Cancel</Button>
+<Button Color="Color.Primary" Clicked="@AddProcess">Add Process</Button>
+
 
 @code {
+    [Parameter]
+    public EventCallback HideModal { get; set; }
+    [Parameter]
+    public EventCallback GetAllProcesses { get; set; }
 
+    private AddProcessCommandParams process = new AddProcessCommandParams();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+
+    private async Task CloseModal()
+    {
+        await HideModal.InvokeAsync();
+    }
+
+    private async Task AddProcess()
+    {
+        await command.Execute(process);
+
+        await HideModal.InvokeAsync();
+
+        await GetAllProcesses.InvokeAsync();
+    }
 }

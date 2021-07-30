@@ -14,5 +14,7 @@ namespace Vai.Frontend.Core.Services
         Task<CommandResult<GetProcessCommandModel>> GetProcess(int processId);
 
         Task<CommandResult> EditProcess(EditProcessCommandParams parameters);
+
+        Task<CommandResult> AddProcess(AddProcessCommandParams parameters);
     }
 }

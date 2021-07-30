@@ -59,13 +59,22 @@ namespace Vai.Frontend.Infrastructure.Services
             return result;
         }
 
+        public async Task<CommandResult> AddProcess(AddProcessCommandParams parameters)
+        {
+            var url = "api/process/addProcess/";
+
+            await client.PostAsJsonAsync(url, parameters);
+
+            return new CommandResult();
+        }
+
         public async Task<CommandResult> EditProcess(EditProcessCommandParams parameters)
         {
             var url = "api/process/editProcess/";
 
             await client.PutAsJsonAsync(url, parameters);
 
-            return new CommandResult {};
+            return new CommandResult();
         }
     }
 }

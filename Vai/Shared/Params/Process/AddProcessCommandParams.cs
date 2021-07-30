@@ -10,10 +10,7 @@ namespace Vai.Shared.Params
         public string Robot { get; set; }
         [Required]
         public string TaskDescription { get; set; }
-        [Required]
         public string StartTime { get; set; }
-        [Required]
-        public string ElapsedTime { get; set; }
         [Required]
         public string Status { get; set; }
         [Required]
